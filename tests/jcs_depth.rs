@@ -5,11 +5,11 @@
 
 use std::cell::Cell;
 
-use quire_canonical::{Encode, Error, FixedShape, Limits, Sink, Writer, drop_value, read};
-use quire_verification_contracts::{
+use filament_verification_contracts::{
     MAX_ARRAY_ITEMS, MAX_JSON_BYTES, MAX_JSON_DEPTH, VerificationErrorCode, jcs_canonicalize,
     jcs_equal, jcs_sha256, parse_bounded_json, validate_resource_envelope,
 };
+use quire_canonical::{Encode, Error, FixedShape, Limits, Sink, Writer, drop_value, read};
 use serde_json::{Value, json};
 
 struct ArrayChain {

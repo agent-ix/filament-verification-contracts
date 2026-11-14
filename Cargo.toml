@@ -4,20 +4,20 @@
 undocumented_unsafe_blocks = "deny"
 
 [package]
-name = "quire-verification-contracts"
+name = "filament-verification-contracts"
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.98.1"
 description = "Public interface vocabulary for the E02 verification contract boundary and the retained shared-reference packet: schema-owned public contracts, RFC 8785 canonicalization, and bounded JSON ingestion."
 authors = ["Agent IX <agent@agent-ix.dev>"]
 license = "AGPL-3.0-or-later"
-repository = "https://github.com/agent-ix/quire-verification-contracts"
+repository = "https://github.com/agent-ix/filament-verification-contracts"
 
 [lints]
 workspace = true
 
 [lib]
-name = "quire_verification_contracts"
+name = "filament_verification_contracts"
 path = "src/lib.rs"
 
 [features]

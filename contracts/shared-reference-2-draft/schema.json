@@ -64,7 +64,7 @@
         {
           "type": "object", "required": ["domain", "version", "algorithm", "digest"],
           "properties": {
-            "domain": {"enum": ["quire.contract.canonical-json", "quire.contract.bound-identity"]},
+            "domain": {"enum": ["filament.contract.canonical-json", "filament.contract.bound-identity"]},
             "version": {"const": "v1"}, "algorithm": {"const": "sha256"},
             "digest": {"type": "string", "minLength": 64, "maxLength": 64, "pattern": "^[0-9a-f]{64}$"}
           },
@@ -73,7 +73,7 @@
         {
           "type": "object", "required": ["domain", "version", "algorithm", "digest"],
           "properties": {
-            "domain": {"const": "quire.verification.jcs"},
+            "domain": {"const": "filament.verification.jcs"},
             "version": {"const": "rfc8785-v1"}, "algorithm": {"const": "sha256"},
             "digest": {"type": "string", "minLength": 75, "maxLength": 75, "pattern": "^sha256-jcs:[0-9a-f]{64}$"}
           },

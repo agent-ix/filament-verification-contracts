@@ -1,6 +1,6 @@
 ---
 type: master-requirements
-name: quire-verification-contracts
+name: filament-verification-contracts
 org: agent-ix
 component_type: rust-lib
 implementation_language: rust
@@ -92,5 +92,5 @@ contains neither production code nor an assertion that those checks passed.
 - [IR-566](https://linear.app/agent-ix/issue/IR-566)
 - [quire-canonical public API](https://github.com/agent-ix/quire-canonical/blob/main/src/lib.rs)
 - [FixedShape contract](https://github.com/agent-ix/quire-canonical/blob/main/src/shape.rs)
-- [QSL depth capabilities](ix://agent-ix/quire-spec-language/FR-259)
-- [QSL depth architecture](ix://agent-ix/quire-spec-language/ADR-030)
+- [FSL depth capabilities](ix://agent-ix/filament-spec-language/FR-259)
+- [FSL depth architecture](ix://agent-ix/filament-spec-language/ADR-030)

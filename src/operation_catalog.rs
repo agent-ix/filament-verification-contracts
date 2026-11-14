@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Agent-IX
 
-//! The closed `quire.checked-operation-catalog/v1` operation vocabulary.
+//! The closed `filament.checked-operation-catalog/v1` operation vocabulary.
 //!
 //! This crate is the catalog's home. It is not a snapshot of one kept elsewhere:
 //! `contracts/checked-operation-catalog-v1.json` is the only copy of these bytes in
-//! the ecosystem, and every consumer — `quire-contract-ir`'s CheckedPackage V2 reader
+//! the ecosystem, and every consumer — `filament-contract-ir`'s CheckedPackage V2 reader
 //! first among them — reads it from here by dependency rather than by embedding its
 //! own. A second copy anywhere, under any name, is a defect, not a convenience.
 //!
@@ -16,7 +16,7 @@
 //! and leaves interpretation to the consumer that owns the reader.
 //!
 //! Homed here on the owner's ruling (2026-09-21), resolving
-//! agent-ix/quire-contract-ir#169 and the catalog half of #166: that repository had
+//! agent-ix/filament-contract-ir#169 and the catalog half of #166: that repository had
 //! embedded its own copy, the copy was deleted, and the crate stopped compiling
 //! rather than let its reader start admitting operations it used to refuse.
 
@@ -24,7 +24,7 @@
 ///
 /// Consumers parse this into their own types. This crate deliberately publishes no
 /// parsed representation: the reader that validates against the catalog lives in
-/// `quire-contract-ir`, and a second parse here would be a second definition of the
+/// `filament-contract-ir`, and a second parse here would be a second definition of the
 /// same closed vocabulary.
 pub const CHECKED_OPERATION_CATALOG_V1: &str =
     include_str!("../contracts/checked-operation-catalog-v1.json");
@@ -47,7 +47,7 @@ mod tests {
     fn the_embedded_document_declares_the_catalog_identity() {
         assert_eq!(
             catalog().get("version").and_then(Value::as_str),
-            Some("quire.checked-operation-catalog/v1")
+            Some("filament.checked-operation-catalog/v1")
         );
     }
 
@@ -264,14 +264,14 @@ mod tests {
                 .unwrap_or_else(|| panic!("operation `{identity}` is declared"))
                 .clone()
         };
-        for identity in ["quire.op.reference.eq", "quire.op.reference.ne"] {
+        for identity in ["filament.op.reference.eq", "filament.op.reference.ne"] {
             let constraints = &operation(identity)["constraints"];
             assert_eq!(constraints.as_array().map(Vec::len), Some(1));
             assert_eq!(constraints[0]["kind"], "conforming_reference");
             assert_eq!(constraints[0]["operands"], serde_json::json!([0, 1]));
         }
         assert_eq!(
-            operation("quire.op.record.project")["operands"],
+            operation("filament.op.record.project")["operands"],
             serde_json::json!(["field_owner"])
         );
     }
@@ -319,7 +319,7 @@ mod tests {
         assert!(strings(&catalog["result_forms"]).contains(&"arm_body".to_owned()));
         assert!(strings(&catalog["constraint_kinds"]).contains(&"union_arms".to_owned()));
 
-        let clause = operation("quire.op.temporal.clause");
+        let clause = operation("filament.op.temporal.clause");
         assert_eq!(clause["operator"], "temporal");
         assert_eq!(
             clause["operands"],
@@ -385,7 +385,7 @@ mod tests {
         ];
         for (names, operator, operands, member) in rows {
             for name in names {
-                let entry = operation(&format!("quire.op.temporal.{name}"));
+                let entry = operation(&format!("filament.op.temporal.{name}"));
                 assert_eq!(entry["operator"], operator, "{name} operator class");
                 assert_eq!(entry["operands"], operands, "{name} operands");
                 assert_eq!(entry["rest"], Value::Null, "{name} rest");
@@ -395,12 +395,12 @@ mod tests {
             }
         }
 
-        let aggregate = operation("quire.op.temporal.aggregate");
+        let aggregate = operation("filament.op.temporal.aggregate");
         assert_eq!(aggregate["mode"], Value::Null);
         assert_eq!(aggregate["constraints"], json!([]));
         assert_eq!(aggregate["leaves"], Value::Null);
 
-        let case = operation("quire.op.control.case");
+        let case = operation("filament.op.control.case");
         assert_eq!(case["operator"], "case");
         assert_eq!(case["operands"], json!(["union"]));
         assert_eq!(case["rest"], "binder");
@@ -459,11 +459,11 @@ mod tests {
                 .map(|entry| entry["identity"].as_str().expect("an identity"))
                 .collect();
             for identity in [
-                "quire.op.control.if",
-                "quire.op.control.let",
-                "quire.op.state.pre",
-                "quire.op.collection.contains",
-                "quire.op.collection.set",
+                "filament.op.control.if",
+                "filament.op.control.let",
+                "filament.op.state.pre",
+                "filament.op.collection.contains",
+                "filament.op.collection.set",
             ] {
                 assert!(
                     accepting.contains(identity),
@@ -499,7 +499,7 @@ mod tests {
         };
         for family in ["string", "uuid", "timestamp"] {
             for operator in ["eq", "ne"] {
-                let identity = format!("quire.op.{family}.{operator}");
+                let identity = format!("filament.op.{family}.{operator}");
                 let entry = find(&identity).unwrap_or_else(|| panic!("`{identity}` is declared"));
                 assert_eq!(entry["operator"], "binary", "{identity}");
                 assert_eq!(entry["operands"], json!([family, family]), "{identity}");
@@ -513,7 +513,7 @@ mod tests {
             }
             for operator in ["lt", "le", "gt", "ge", "add", "sub", "mul", "div", "negate"] {
                 assert!(
-                    find(&format!("quire.op.{family}.{operator}")).is_none(),
+                    find(&format!("filament.op.{family}.{operator}")).is_none(),
                     "`{family}` has no `{operator}` identity"
                 );
             }
@@ -532,21 +532,21 @@ mod tests {
                 .collect();
             let expected = if family == "string" {
                 [
-                    "quire.op.string.eq",
-                    "quire.op.string.ne",
-                    "quire.op.string.to_integer",
-                    "quire.op.string.to_decimal",
-                    "quire.op.string.to_rational",
-                    "quire.op.string.to_float32",
-                    "quire.op.string.to_float64",
-                    "quire.op.string.to_quantity",
+                    "filament.op.string.eq",
+                    "filament.op.string.ne",
+                    "filament.op.string.to_integer",
+                    "filament.op.string.to_decimal",
+                    "filament.op.string.to_rational",
+                    "filament.op.string.to_float32",
+                    "filament.op.string.to_float64",
+                    "filament.op.string.to_quantity",
                 ]
                 .map(str::to_owned)
                 .to_vec()
             } else {
                 vec![
-                    format!("quire.op.{family}.eq"),
-                    format!("quire.op.{family}.ne"),
+                    format!("filament.op.{family}.eq"),
+                    format!("filament.op.{family}.ne"),
                 ]
             };
             assert_eq!(
@@ -575,7 +575,7 @@ mod tests {
         let mut expected_order = Vec::new();
         for source in ["text", "string"] {
             for (target, family, mode, ieee) in targets {
-                let identity = format!("quire.op.{source}.to_{target}");
+                let identity = format!("filament.op.{source}.to_{target}");
                 expected_order.push(identity.clone());
                 let entry = operations
                     .iter()
@@ -611,8 +611,8 @@ mod tests {
             .iter()
             .filter_map(|entry| entry["identity"].as_str())
             .filter(|identity| {
-                identity.starts_with("quire.op.text.to_")
-                    || identity.starts_with("quire.op.string.to_")
+                identity.starts_with("filament.op.text.to_")
+                    || identity.starts_with("filament.op.string.to_")
             })
             .collect();
         assert_eq!(actual_order, expected_order);
@@ -622,11 +622,11 @@ mod tests {
             .collect();
         let text_anchor = all_identities
             .iter()
-            .position(|identity| *identity == "quire.op.text.size")
+            .position(|identity| *identity == "filament.op.text.size")
             .expect("text.size is catalogued");
         let string_anchor = all_identities
             .iter()
-            .position(|identity| *identity == "quire.op.string.ne")
+            .position(|identity| *identity == "filament.op.string.ne")
             .expect("string.ne is catalogued");
         assert_eq!(
             &all_identities[text_anchor + 1..text_anchor + 7],
@@ -681,7 +681,7 @@ mod tests {
                 "`{family}` belongs to exactly any_value and any_term"
             );
             for operator in ["eq", "ne"] {
-                let identity = format!("quire.op.{family}.{operator}");
+                let identity = format!("filament.op.{family}.{operator}");
                 let entry = find(&identity).unwrap_or_else(|| panic!("`{identity}` is declared"));
                 assert_eq!(entry["operator"], "binary", "{identity}");
                 assert_eq!(entry["operands"], json!([family, family]), "{identity}");
@@ -695,18 +695,20 @@ mod tests {
             }
             for operator in ["lt", "le", "gt", "ge", "add", "sub", "mul", "div", "negate"] {
                 assert!(
-                    find(&format!("quire.op.{family}.{operator}")).is_none(),
+                    find(&format!("filament.op.{family}.{operator}")).is_none(),
                     "`{family}` has no `{operator}` identity"
                 );
             }
         }
-        let length = find("quire.op.bytes.length").expect("`quire.op.bytes.length` is declared");
+        let length =
+            find("filament.op.bytes.length").expect("`filament.op.bytes.length` is declared");
         assert_eq!(length["operator"], "unary");
         assert_eq!(length["operands"], json!(["bytes"]));
         assert_eq!(length["result"], "integer");
         assert_eq!(length["laws"], json!([]));
         assert_eq!(length["mode"], Value::Null);
-        let concat = find("quire.op.bytes.concat").expect("`quire.op.bytes.concat` is declared");
+        let concat =
+            find("filament.op.bytes.concat").expect("`filament.op.bytes.concat` is declared");
         assert_eq!(concat["operator"], "binary");
         assert_eq!(concat["operands"], json!(["bytes", "bytes"]));
         assert_eq!(concat["result"], "bytes");
@@ -715,25 +717,25 @@ mod tests {
         let bytes_identities: BTreeSet<&str> = operations
             .iter()
             .filter_map(|entry| entry["identity"].as_str())
-            .filter(|identity| identity.starts_with("quire.op.bytes."))
+            .filter(|identity| identity.starts_with("filament.op.bytes."))
             .collect();
         assert_eq!(
             bytes_identities,
             BTreeSet::from([
-                "quire.op.bytes.concat",
-                "quire.op.bytes.eq",
-                "quire.op.bytes.length",
-                "quire.op.bytes.ne"
+                "filament.op.bytes.concat",
+                "filament.op.bytes.eq",
+                "filament.op.bytes.length",
+                "filament.op.bytes.ne"
             ])
         );
         let json_identities: BTreeSet<&str> = operations
             .iter()
             .filter_map(|entry| entry["identity"].as_str())
-            .filter(|identity| identity.starts_with("quire.op.json_object."))
+            .filter(|identity| identity.starts_with("filament.op.json_object."))
             .collect();
         assert_eq!(
             json_identities,
-            BTreeSet::from(["quire.op.json_object.eq", "quire.op.json_object.ne"])
+            BTreeSet::from(["filament.op.json_object.eq", "filament.op.json_object.ne"])
         );
     }
 
@@ -748,7 +750,7 @@ mod tests {
         let catalog = catalog();
         let operations = catalog["operations"].as_array().expect("operations array");
         for width in ["float32", "float64"] {
-            let identity = format!("quire.op.ieee.{width}.negate");
+            let identity = format!("filament.op.ieee.{width}.negate");
             let entry = operations
                 .iter()
                 .find(|entry| entry["identity"] == identity.as_str())
@@ -765,7 +767,7 @@ mod tests {
             for operator in ["eq", "ne", "lt", "le", "gt", "ge"] {
                 assert!(
                     !operations.iter().any(|entry| entry["identity"]
-                        == format!("quire.op.ieee.{width}.{operator}").as_str()),
+                        == format!("filament.op.ieee.{width}.{operator}").as_str()),
                     "`{width}` has no `{operator}` identity"
                 );
             }
@@ -793,8 +795,8 @@ mod tests {
                 .cloned()
                 .unwrap_or_else(|| panic!("`{identity}` is declared"))
         };
-        let carried = find("quire.op.collection.sum.carried_quantity");
-        let mut plain = find("quire.op.collection.sum.quantity");
+        let carried = find("filament.op.collection.sum.carried_quantity");
+        let mut plain = find("filament.op.collection.sum.quantity");
         let carried_member =
             serde_json::json!({"kind": "carried_member", "operands": [], "family": null});
         let constraints = plain["constraints"]
@@ -816,8 +818,8 @@ mod tests {
         let operations = catalog["operations"].as_array().expect("operations array");
         let entry = operations
             .iter()
-            .find(|entry| entry["identity"] == "quire.op.quantity.negate")
-            .expect("`quire.op.quantity.negate` is declared");
+            .find(|entry| entry["identity"] == "filament.op.quantity.negate")
+            .expect("`filament.op.quantity.negate` is declared");
         assert_eq!(entry["operator"], "unary");
         assert_eq!(entry["operands"], json!(["quantity"]));
         assert_eq!(entry["rest"], Value::Null);
@@ -847,7 +849,7 @@ mod tests {
                 .unwrap_or_else(|| panic!("`{identity}` is declared"))
         };
         for family in ["sequence", "ordered_set"] {
-            let identity = format!("quire.op.collection.{family}.drop_first");
+            let identity = format!("filament.op.collection.{family}.drop_first");
             let entry = find(&identity);
             assert_eq!(entry["operator"], "collection", "{identity}");
             assert_eq!(entry["operands"], json!([family]), "{identity}");
@@ -862,11 +864,11 @@ mod tests {
         for family in ["set", "bag"] {
             assert!(
                 !operations.iter().any(|entry| entry["identity"]
-                    == format!("quire.op.collection.{family}.drop_first").as_str()),
+                    == format!("filament.op.collection.{family}.drop_first").as_str()),
                 "`{family}` has no `drop_first` identity"
             );
         }
-        let entry = find("quire.op.collection.remove_one");
+        let entry = find("filament.op.collection.remove_one");
         assert_eq!(entry["operator"], "collection");
         assert_eq!(entry["operands"], json!(["collection_kind", "any_value"]));
         assert_eq!(entry["rest"], Value::Null);
