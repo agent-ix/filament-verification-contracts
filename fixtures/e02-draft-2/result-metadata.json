@@ -1,12 +1,12 @@
 {
   "nativeArtifact": {
     "uri": "file:///runs/assigned-result.json",
-    "mediaType": "application/vnd.agent-ix.quire-protocol-result+json;version=1-draft.1"
+    "mediaType": "application/vnd.agent-ix.filament-protocol-result+json;version=1-draft.1"
   },
   "provenance": {
-    "producer": "quire-protocol",
+    "producer": "filament-protocol",
     "producerVersion": "1.0.0",
-    "adapter": "quire-projection",
+    "adapter": "filament-projection",
     "adapterVersion": "1.0.0"
   }
 }

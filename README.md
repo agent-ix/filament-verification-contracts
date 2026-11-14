@@ -1,23 +1,23 @@
-# quire-verification-contracts
+# filament-verification-contracts
 
 [![Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?logo=discord&logoColor=white)](https://discord.gg/k8DVhuYBR2)
-[![Quire](https://img.shields.io/badge/Quire-Specification%20Language-1F6FEB)](https://github.com/agent-ix/quire-spec-language)
+[![Filament](https://img.shields.io/badge/Filament-Specification%20Language-1F6FEB)](https://github.com/agent-ix/filament-spec-language)
 
-quire-verification-contracts is a Rust crate and set of JSON Schemas that
+filament-verification-contracts is a Rust crate and set of JSON Schemas that
 define the five public verification contracts (technique definitions, tool
 capabilities, selection policies, verification plans and technique results).
 It also provides their stable error codes, RFC 8785 canonical JSON with a
 digest built on it, and a JSON reader with fixed limits on size, nesting and
 array length.
 
-Other Quire repositories use it as the single definition of what a verification
+Other Filament repositories use it as the single definition of what a verification
 record looks like, what counts as the same record, and how much input is
 accepted. Its functions are total and do no I/O, so a bad input returns an
 error code and does not panic.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.svg">
-  <img alt="quire-verification-contracts owns five shared vocabularies: the five public verification contracts with their error codes, bounded JSON intake, RFC 8785 identity, the shared-reference packet and the checked-operation catalog. The quire-verification re-exports all of it, quire-protocol uses the contracts directly, quire-contract-ir reads the catalog, and the packet is a temporary copy from quire-specification." src="docs/images/hero-light.svg">
+  <img alt="filament-verification-contracts owns five shared vocabularies: the five public verification contracts with their error codes, bounded JSON intake, RFC 8785 identity, the shared-reference packet and the checked-operation catalog. The filament-verification re-exports all of it, filament-protocol uses the contracts directly, filament-contract-ir reads the catalog, and the packet is a temporary copy from filament-specification." src="docs/images/hero-light.svg">
 </picture>
 
 > **Status: public prerelease.** The crate is version 0.1.0 and is not
@@ -41,7 +41,7 @@ objects with the same fields in a different order are the same record, and
 their digest is the same:
 
 ```rust
-use quire_verification_contracts::{jcs_equal, jcs_sha256};
+use filament_verification_contracts::{jcs_equal, jcs_sha256};
 use serde_json::json;
 
 let left = json!({"b": 1, "a": 2});
@@ -66,7 +66,7 @@ A document over the limits is refused before it is processed
 (`oversized_json_document_is_rejected` in the same file):
 
 ```rust
-use quire_verification_contracts::{MAX_JSON_BYTES, VerificationErrorCode, parse_bounded_json};
+use filament_verification_contracts::{MAX_JSON_BYTES, VerificationErrorCode, parse_bounded_json};
 
 let oversized = vec![b'a'; MAX_JSON_BYTES + 1];
 let error = parse_bounded_json(&oversized).expect_err("oversized input must be rejected");
@@ -111,7 +111,7 @@ and [depth safety requirement](spec/non-functional/NFR-001-jcs-depth-safety.md).
 | `jcs_canonicalize(value)` | The RFC 8785 bytes of any `quire_canonical::Encode` value. |
 | `jcs_equal(left, right)` | Whether two values have the same canonical bytes. |
 | `jcs_sha256(value)` | `sha256-jcs:` followed by the SHA-256 of the canonical bytes. |
-| `contract_version()`, `input_kinds()` | The schema's version string (`quire-verification/e02-draft-2`) and its five input kinds: state, relational, trace, fault, manual. |
+| `contract_version()`, `input_kinds()` | The schema's version string (`filament-verification/e02-draft-2`) and its five input kinds: state, relational, trace, fault, manual. |
 | `VerificationErrorCode`, `VerificationError` | Stable snake_case codes (`as_str`, `from_code`, `all`) plus optional key/value context. |
 | `wire` | Rust types generated from the schema at build time. |
 | `shared_reference` | The shared-reference packet: `validate_shared_reference_v1` / `_v2`, generated `wire_v1` / `wire_v2` types and the fourteen `fixtures`. |
@@ -130,32 +130,32 @@ and [depth safety requirement](spec/non-functional/NFR-001-jcs-depth-safety.md).
 | File | What it is |
 | --- | --- |
 | `contracts/e02-draft-2.schema.json` | The authoritative definition of the five public contracts. The build generates the `wire` types from it and `validate_contract` compiles it at runtime. |
-| `contracts/shared-reference-1-draft.schema.json`, `contracts/shared-reference-2-draft/schema.json`, `fixtures/shared-reference-2-draft/` | The shared-reference packet: two schemas and fourteen fixtures, a data-only copy of what `quire-specification` defines. It is temporary and is deleted here once its source has a public home. |
-| `contracts/checked-operation-catalog-v1.json` | The closed `quire.checked-operation-catalog/v1` vocabulary: 185 operations with their operand families, result forms and constraints. This crate is its only home. |
+| `contracts/shared-reference-1-draft.schema.json`, `contracts/shared-reference-2-draft/schema.json`, `fixtures/shared-reference-2-draft/` | The shared-reference packet: two schemas and fourteen fixtures, a data-only copy of what `filament-specification` defines. It is temporary and is deleted here once its source has a public home. |
+| `contracts/checked-operation-catalog-v1.json` | The closed `filament.checked-operation-catalog/v1` vocabulary: 185 operations with their operand families, result forms and constraints. This crate is its only home. |
 
 The catalog is published as raw bytes. The reader that decides what the catalog
-admits lives in `quire-contract-ir`, so a second parse here would define the
+admits lives in `filament-contract-ir`, so a second parse here would define the
 vocabulary twice. See
 [`contracts/README.md`](contracts/README.md) for the packet's scope and expiry,
-and for the schema definitions that only `quire-verification` uses.
+and for the schema definitions that only `filament-verification` uses.
 
-## The Quire ecosystem
+## The Filament ecosystem
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/ecosystem-dark.svg">
-  <img alt="The Quire repositories. The main chain runs from the standard, quire-specification, to the compiler, quire-spec-language, then quire-contract-ir, quire-contract-codegen and quire-contract-runtime. quire-spec-language also feeds quire-protocol, and quire-contract-ir feeds quire-analyze. quire-observation feeds quire-protocol and quire-mltl. Above the chain, quire-driver runs it, quire-integration tests it and quire-verification plans verification. Below it, shared libraries used throughout: quire-eval, quire-exact, quire-semantic-value, quire-walk, quire-canonical and quire-verification-contracts." src="docs/images/ecosystem-light.svg">
+  <img alt="The Filament repositories. The main chain runs from the standard, filament-specification, to the compiler, filament-spec-language, then filament-contract-ir, filament-contract-codegen and filament-contract-runtime. filament-spec-language also feeds filament-protocol, and filament-contract-ir feeds filament-analyze. filament-observation feeds filament-protocol and filament-mltl. Above the chain, filament-driver runs it, filament-integration tests it and filament-verification plans verification. Below it, shared libraries used throughout: filament-eval, filament-exact, filament-semantic-value, filament-walk, quire-canonical and filament-verification-contracts." src="docs/images/ecosystem-light.svg">
 </picture>
 
-Its only Quire dependency is [quire-canonical](https://github.com/agent-ix/quire-canonical),
+Its only dependency from the Quire family is [quire-canonical](https://github.com/agent-ix/quire-canonical),
 the authoritative JCS encoder (its other
 dependencies are `chrono`, `regress`, `serde`, `serde_json`, `sha2`,
 `jsonschema`, `thiserror` and the build-time code generator `typify`). The
-`quire-verification` depends on it and re-exports it, `quire-protocol`
+`filament-verification` depends on it and re-exports it, `filament-protocol`
 depends on it directly,
-[quire-contract-ir](https://github.com/agent-ix/quire-contract-ir) reads the
+[filament-contract-ir](https://github.com/agent-ix/filament-contract-ir) reads the
 operation catalog from it, and
-[quire-contract-codegen](https://github.com/agent-ix/quire-contract-codegen)
-and quire-specification depend on it too.
+[filament-contract-codegen](https://github.com/agent-ix/filament-contract-codegen)
+and filament-specification depend on it too.
 
 ## Building and testing
 

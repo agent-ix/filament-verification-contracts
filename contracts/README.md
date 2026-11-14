@@ -10,10 +10,10 @@ schema, including conditional assertions that are not constructive Rust
 types.
 
 The same schema file also owns a number of `$defs` used only internally by
-`quire-verification` (for example `QualificationProfile`,
+`filament-verification` (for example `QualificationProfile`,
 `QualificationCorpusManifest`, `QualificationOracleManifest`,
 `QualificationTechniqueManifest`, and the `Vp04*` measurement and report
-records). Those are not additional public E02 root contracts; `quire-verification`
+records). Those are not additional public E02 root contracts; `filament-verification`
 reaches them through this crate's `validate_schema_definition`, which looks up
 a named definition in this same schema document. This crate does not
 interpret or depend on their internal semantics — it only owns the schema file
@@ -21,33 +21,33 @@ and the generic by-name validator.
 
 `shared-reference-1-draft.schema.json` and `shared-reference-2-draft/schema.json`,
 and the fourteen fixture files under `fixtures/shared-reference-2-draft/`, are a
-data-only copy of `agent-ix/quire-specification`'s
+data-only copy of `agent-ix/filament-specification`'s
 `proposals/state-core/schemas/shared-reference-1-draft.schema.json`,
 `proposals/shared-reference-2-draft/schema.json` and
 `proposals/shared-reference-2-draft/fixtures/`. This is the complete retained
 shared-reference packet: both schemas, all fourteen fixtures and both `typify`
 codegens (`build.rs`, `pub mod wire_v1`/`wire_v2` in `src/shared_reference.rs`)
-live in this crate. `quire-verification` holds no copy of any of it and
+live in this crate. `filament-verification` holds no copy of any of it and
 re-exports this module unchanged at `contracts::shared_reference`.
 
 The packet is a temporary copy retained under
 [VER-50](https://linear.app/agent-ix/issue/VER-50)'s exception. It expires, per
-[VER-51](https://linear.app/agent-ix/issue/VER-51), when "`quire-specification`
+[VER-51](https://linear.app/agent-ix/issue/VER-51), when "`filament-specification`
 becomes public, or the packet gets a public home" at its definer; the copy is
 then deleted from this crate and replaced by a reference to that source. The
 packet is published here under AGPL-3.0-or-later; the owner ruling of
 2026-09-20 authorizes publication of the draft-2 schema fragment.
 
 `checked-operation-catalog-v1.json` is the closed
-`quire.checked-operation-catalog/v1` operation vocabulary — 185 operations with
+`filament.checked-operation-catalog/v1` operation vocabulary — 185 operations with
 their operand families, result forms, law roles, modes, member kinds and
 cross-operand constraints, plus the ten closed vocabularies they are drawn from.
 This crate is its **home**, not a snapshot of one kept elsewhere: these bytes have
-exactly one copy in the ecosystem, and consumers — `quire-contract-ir`'s
+exactly one copy in the ecosystem, and consumers — `filament-contract-ir`'s
 CheckedPackage V2 reader first among them — read it from here by dependency.
 `src/operation_catalog.rs` publishes the bytes, the version identity and a SHA-256
 over the raw file, and deliberately publishes nothing parsed: the reader that
-decides what the catalog admits lives in `quire-contract-ir`, and a second parse
+decides what the catalog admits lives in `filament-contract-ir`, and a second parse
 here would be a second definition of one closed vocabulary.
 
 `cargo test` exercises `validate_contract`, `parse_bounded_json`,

@@ -1,5 +1,5 @@
 # =============================================================================
-# quire-verification-contracts Makefile
+# filament-verification-contracts Makefile
 # =============================================================================
 
 CARGO ?= cargo

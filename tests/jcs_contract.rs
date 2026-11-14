@@ -5,10 +5,10 @@
 
 use std::collections::BTreeMap;
 
-use quire_canonical::{Encode, FixedShape, nest};
-use quire_verification_contracts::{
+use filament_verification_contracts::{
     VerificationErrorCode, jcs_canonicalize, jcs_equal, jcs_sha256,
 };
+use quire_canonical::{Encode, FixedShape, nest};
 use serde::Serialize;
 use serde::ser::{SerializeMap, Serializer};
 use serde_json::{Value, json};
@@ -804,7 +804,7 @@ fn option_integer_none_member_name_refuses() {
 /// Trace: FR-001-AC-7
 #[test]
 fn original_shared_reference_vectors_keep_canonical_bytes_and_content_identities() {
-    use quire_verification_contracts::shared_reference::fixtures;
+    use filament_verification_contracts::shared_reference::fixtures;
     let vectors: Vec<Value> = serde_json::from_str(fixtures::CANONICAL_VECTORS).unwrap();
     let ids = ["core", "utf16-and-number", "member-reordering"];
     assert_eq!(vectors.len(), ids.len());
@@ -820,7 +820,7 @@ fn original_shared_reference_vectors_keep_canonical_bytes_and_content_identities
 /// Trace: FR-001-AC-7
 #[test]
 fn operation_catalog_canonical_bytes_round_trip_and_identity_hashes_them() {
-    use quire_verification_contracts::operation_catalog::CHECKED_OPERATION_CATALOG_V1;
+    use filament_verification_contracts::operation_catalog::CHECKED_OPERATION_CATALOG_V1;
     let value: Value = serde_json::from_str(CHECKED_OPERATION_CATALOG_V1).unwrap();
     let bytes = jcs_canonicalize(&value).unwrap();
     let reparsed: Value = serde_json::from_slice(&bytes).unwrap();

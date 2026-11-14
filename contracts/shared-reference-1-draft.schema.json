@@ -252,8 +252,8 @@
       "properties": {
         "domain": {
           "enum": [
-            "quire.contract.canonical-json",
-            "quire.contract.bound-identity"
+            "filament.contract.canonical-json",
+            "filament.contract.bound-identity"
           ]
         },
         "version": {

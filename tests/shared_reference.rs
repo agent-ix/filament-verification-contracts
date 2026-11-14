@@ -4,8 +4,8 @@
 //! Acceptance tests for the retained shared-reference packet (VER-50): schema validation
 //! and generated wire types.
 
-use quire_verification_contracts::VerificationErrorCode;
-use quire_verification_contracts::shared_reference::{
+use filament_verification_contracts::VerificationErrorCode;
+use filament_verification_contracts::shared_reference::{
     fixtures, validate_shared_reference_v1, validate_shared_reference_v2, wire_v1, wire_v2,
 };
 use serde_json::json;

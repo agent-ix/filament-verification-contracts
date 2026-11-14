@@ -3,8 +3,8 @@
 
 //! Schema-owned public contracts, RFC 8785 canonicalization, and bounded JSON ingestion.
 //!
-//! Extracted from `quire-verification` (PLAT-861) as the public interface-vocabulary
-//! boundary consumed directly by `quire-protocol`. `quire-verification` depends on this crate
+//! Extracted from `filament-verification` (PLAT-861) as the public interface-vocabulary
+//! boundary consumed directly by `filament-protocol`. `filament-verification` depends on this crate
 //! and re-exports it at `contracts`, so its own internal call sites — including the internal,
 //! non-public schema definitions validated through [`validate_schema_definition`] — are
 //! unchanged. The retained shared-reference packet (schemas, fixtures, and codegen) lives in
@@ -40,7 +40,7 @@ pub mod wire {
 /// The retained shared-reference packet: schemas, derived wire types and fixtures (VER-50).
 pub mod shared_reference;
 
-/// The closed `quire.checked-operation-catalog/v1` operation vocabulary, homed here.
+/// The closed `filament.checked-operation-catalog/v1` operation vocabulary, homed here.
 pub mod operation_catalog;
 
 /// Stable error codes exposed by the crate boundary.
@@ -489,7 +489,7 @@ pub fn validate_plan_value(value: &Value) -> Result<(), VerificationError> {
 /// Validates one value against a named definition in the authoritative schema.
 ///
 /// Used both by this crate's own [`validate_contract`]/[`validate_plan_value`] and directly by
-/// `quire-verification`'s internal, non-public schema definitions (for example
+/// `filament-verification`'s internal, non-public schema definitions (for example
 /// `QualificationProfile`, `QualificationCorpusManifest`, and the `Vp04*` records), which are
 /// additional `$defs` in the same authoritative schema rather than a sixth public E02 root
 /// contract.
@@ -588,14 +588,14 @@ pub const fn input_kinds() -> &'static [&'static str] {
 /// ```compile_fail
 /// #[derive(serde::Serialize)]
 /// struct Dto { a: u8 }
-/// let _ = quire_verification_contracts::jcs_canonicalize(&Dto { a: 1 });
+/// let _ = filament_verification_contracts::jcs_canonicalize(&Dto { a: 1 });
 /// ```
 ///
 /// A generic wrapper must also require Encode:
 ///
 /// ```compile_fail
 /// fn serialize_only<T: serde::Serialize>(value: &T) {
-///     let _ = quire_verification_contracts::jcs_canonicalize(value);
+///     let _ = filament_verification_contracts::jcs_canonicalize(value);
 /// }
 /// ```
 ///
@@ -605,7 +605,7 @@ pub const fn input_kinds() -> &'static [&'static str] {
 /// #[derive(serde::Serialize, quire_canonical::FixedShape)]
 /// struct Dto { a: u8 }
 /// fn canonical<T: quire_canonical::Encode + ?Sized>(value: &T) -> Vec<u8> {
-///     quire_verification_contracts::jcs_canonicalize(value).unwrap()
+///     filament_verification_contracts::jcs_canonicalize(value).unwrap()
 /// }
 /// assert_eq!(canonical(&Dto { a: 1 }), b"{\"a\":1}");
 /// assert_eq!(canonical("text"), b"\"text\"");

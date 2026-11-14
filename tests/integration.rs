@@ -3,7 +3,7 @@
 
 //! End-to-end tests for the public E02 verification contract boundary.
 
-use quire_verification_contracts::{
+use filament_verification_contracts::{
     MAX_ARRAY_ITEMS, MAX_JSON_BYTES, MAX_JSON_DEPTH, PublicContract, VerificationErrorCode,
     contract_version, input_kinds, jcs_canonicalize, jcs_equal, jcs_sha256, parse_bounded_json,
     validate_contract, validate_resource_envelope, validate_schema_definition,
@@ -39,7 +39,7 @@ fn minimal_technique_result() -> Value {
         serde_json::from_str(include_str!("../fixtures/e02-draft-2/result-metadata.json"))
             .expect("result metadata fixture is JSON");
     json!({
-        "contractVersion": "quire-verification/e02-draft-2",
+        "contractVersion": "filament-verification/e02-draft-2",
         "kind": "TechniqueResult",
         "resultId": "assigned-result-1",
         "planId": "plan-1",
@@ -67,7 +67,7 @@ fn minimal_technique_result() -> Value {
 
 fn minimal_tool_capability() -> serde_json::Value {
     json!({
-        "contractVersion": "quire-verification/e02-draft-2",
+        "contractVersion": "filament-verification/e02-draft-2",
         "kind": "ToolCapability",
         "capabilityId": "test-capability",
         "techniqueId": "test-technique",
@@ -87,7 +87,7 @@ fn minimal_tool_capability() -> serde_json::Value {
 
 #[test]
 fn contract_version_matches_schema_generated_constant() {
-    assert_eq!(contract_version(), "quire-verification/e02-draft-2");
+    assert_eq!(contract_version(), "filament-verification/e02-draft-2");
 }
 
 #[test]

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://private.agent-ix.local/quire-verification/e02-draft-2.schema.json",
+  "$id": "https://private.agent-ix.local/filament-verification/e02-draft-2.schema.json",
   "title": "Private E02 verification interface draft",
   "description": "Accepted private cross-repository Rust interface; not a public normative schema.",
   "oneOf": [
@@ -270,7 +270,7 @@
       "type": "object",
       "required": ["contractVersion", "kind", "techniqueId", "name", "class", "purpose", "applicability", "sourceRef"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
         "kind": { "const": "TechniqueDefinition" },
         "techniqueId": { "type": "string", "minLength": 1 },
         "name": { "type": "string", "minLength": 1 },
@@ -346,7 +346,7 @@
       "type": "object",
       "required": ["contractVersion", "kind", "capabilityId", "techniqueId", "qualification", "inputKinds", "profiles", "prerequisites", "runner", "environmentPermissions", "nativeArtifactInterface"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
         "kind": { "const": "ToolCapability" },
         "capabilityId": { "type": "string", "minLength": 1 },
         "techniqueId": { "type": "string", "minLength": 1 },
@@ -393,7 +393,7 @@
       "type": "object",
       "required": ["contractVersion", "kind", "policyId", "version", "sourceRef", "rules", "provenance"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
         "kind": { "const": "SelectionPolicy" },
         "policyId": { "type": "string", "minLength": 1 },
         "version": { "type": "string", "minLength": 1 },
@@ -467,7 +467,7 @@
       "type": "object",
       "required": ["contractVersion", "kind", "planId", "policyRef", "inventory", "tasks", "evidenceOwner", "sufficiencyOwner"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
         "kind": { "const": "VerificationPlan" },
         "planId": { "type": "string", "minLength": 1 },
         "policyRef": { "type": "object" },
@@ -602,7 +602,7 @@
       "type": "object",
       "required": ["contractVersion", "kind", "resultId", "planId", "taskId", "runRef", "techniqueId", "producedAt", "propertyRef", "subjectRefs", "profile", "bindingRefs", "dependencyClosure", "executionScope", "execution", "logical", "activation", "participation", "assumptions", "adequacy", "provenance", "nativeArtifacts", "oracleContributions"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
         "kind": { "const": "TechniqueResult" },
         "resultId": { "type": "string", "minLength": 1 },
         "planId": { "type": "string", "minLength": 1 },
@@ -1031,8 +1031,8 @@
         "interfaces"
       ],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-profile/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-profile/v1" },
         "kind": { "const": "QualificationProfile" },
         "profileId": { "type": "string", "minLength": 1 },
         "profileRevision": { "type": "string", "minLength": 1 },
@@ -1244,7 +1244,7 @@
       "type": "object",
       "required": ["schemaVersion", "kind", "status", "entryId", "lineageIdentity", "outputDigest"],
       "properties": {
-        "schemaVersion": { "const": "quire-verification.qualification-corpus-replay/v1" },
+        "schemaVersion": { "const": "filament-verification.qualification-corpus-replay/v1" },
         "kind": { "const": "QualificationCorpusReplayRun" },
         "status": { "const": "completed" },
         "entryId": { "type": "string", "minLength": 1 },
@@ -1257,8 +1257,8 @@
       "type": "object",
       "required": ["contractVersion", "schemaVersion", "kind", "manifestId", "manifestRevision", "profileIdentity", "populationId", "requiredClasses", "entries", "gaps", "exclusions"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-corpus/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-corpus/v1" },
         "kind": { "const": "QualificationCorpusManifest" },
         "manifestId": { "type": "string", "minLength": 1 },
         "manifestRevision": { "type": "string", "minLength": 1 },
@@ -1456,8 +1456,8 @@
         "gaps"
       ],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-oracles/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-oracles/v1" },
         "kind": { "const": "QualificationOracleManifest" },
         "manifestId": { "type": "string", "minLength": 1 },
         "profileIdentity": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
@@ -1488,8 +1488,8 @@
       "type": "object",
       "required": ["contractVersion", "schemaVersion", "kind", "bindingId", "guaranteeId", "inputProjection", "relationId", "observationRef"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-oracle-response/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-oracle-response/v1" },
         "kind": { "const": "QualificationOracleProducerResponse" },
         "bindingId": { "type": "string", "minLength": 1 },
         "guaranteeId": { "type": "string", "minLength": 1 },
@@ -1503,8 +1503,8 @@
       "type": "object",
       "required": ["contractVersion", "schemaVersion", "kind", "bindingId", "guaranteeId", "inputProjection", "relationId", "candidateObservationRef", "oracleObservationRef", "outcome"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-comparison-response/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-comparison-response/v1" },
         "kind": { "const": "QualificationComparisonProducerResponse" },
         "bindingId": { "type": "string", "minLength": 1 },
         "guaranteeId": { "type": "string", "minLength": 1 },
@@ -1556,8 +1556,8 @@
       "type": "object",
       "required": ["contractVersion", "schemaVersion", "kind", "operation", "manifestIdentity", "bindingId", "guaranteeId", "inputProjection", "engineeringAssuranceRevision", "executionProtocol", "requestIdentity", "resultIdentity", "resultRef", "state"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-oracle-execution/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-oracle-execution/v1" },
         "kind": { "const": "QualificationOracleExecutionRecord" },
         "operation": { "enum": ["oracle", "comparison"] },
         "manifestIdentity": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
@@ -1577,8 +1577,8 @@
       "type": "object",
       "required": ["contractVersion", "schemaVersion", "kind", "manifestIdentity", "bindingId", "guaranteeId", "inputProjection", "engineeringAssuranceRevision", "executionProtocol", "requestIdentity", "resultIdentity", "resultRef", "expectedRelation", "candidateObservationRef", "oracleObservationRef", "outcome", "resolution"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-oracle-comparison/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-oracle-comparison/v1" },
         "kind": { "const": "QualificationOracleComparisonRecord" },
         "manifestIdentity": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
         "bindingId": { "type": "string", "minLength": 1 },
@@ -1604,8 +1604,8 @@
       "type": "object",
       "required": ["contractVersion", "schemaVersion", "kind", "bindingId", "comparisonIdentity", "procedureRef", "attributions", "bounds"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-disagreement-response/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-disagreement-response/v1" },
         "kind": { "const": "QualificationDisagreementProcedureResponse" },
         "bindingId": { "type": "string", "minLength": 1 },
         "comparisonIdentity": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
@@ -1631,8 +1631,8 @@
       "type": "object",
       "required": ["contractVersion", "schemaVersion", "kind", "manifestIdentity", "bindingId", "guaranteeId", "comparisonIdentity", "procedureRef", "resultRef", "attributions", "bounds"],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-disagreement/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-disagreement/v1" },
         "kind": { "const": "QualificationOracleDisagreementRecord" },
         "manifestIdentity": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
         "bindingId": { "type": "string", "minLength": 1 },
@@ -1835,8 +1835,8 @@
         "gaps"
       ],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-techniques/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-techniques/v1" },
         "kind": { "const": "QualificationTechniqueManifest" },
         "manifestId": { "type": "string", "minLength": 1 },
         "profileIdentity": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
@@ -1872,8 +1872,8 @@
         "shrinkPath"
       ],
       "properties": {
-        "contractVersion": { "const": "quire-verification/e02-draft-2" },
-        "schemaVersion": { "const": "quire-verification.qualification-case-request/v1" },
+        "contractVersion": { "const": "filament-verification/e02-draft-2" },
+        "schemaVersion": { "const": "filament-verification.qualification-case-request/v1" },
         "kind": { "const": "QualificationCaseRequest" },
         "manifestIdentity": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
         "configurationId": { "type": "string", "minLength": 1 },
@@ -1992,7 +1992,7 @@
       "type": "object",
       "required": ["schemaVersion", "executionId", "plan", "commands", "nativeRuns", "results", "assessment", "evidenceOwner", "sufficiencyDecision"],
       "properties": {
-        "schemaVersion": { "const": "quire-verification.vp04-execution/v1" },
+        "schemaVersion": { "const": "filament-verification.vp04-execution/v1" },
         "executionId": { "type": "string", "minLength": 1 },
         "plan": { "$ref": "#/$defs/VerificationPlan" },
         "commands": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Vp04NativeCommand" } },
@@ -2064,7 +2064,7 @@
       "type": "object",
       "required": ["schemaVersion", "candidateIdentity", "environmentIdentity", "observations", "summaries", "context"],
       "properties": {
-        "schemaVersion": { "const": "quire-verification.vp04-measurements/v1" },
+        "schemaVersion": { "const": "filament-verification.vp04-measurements/v1" },
         "candidateIdentity": { "type": "string", "minLength": 1 },
         "environmentIdentity": { "type": "string", "minLength": 1 },
         "observations": { "type": "array", "minItems": 16, "maxItems": 16, "items": { "$ref": "#/$defs/Vp04MeasurementObservation" } },
@@ -2077,7 +2077,7 @@
       "type": "object",
       "required": ["schemaVersion", "reportId", "candidateRef", "subjectRef", "mutationRef", "dependencyClosureRef", "environmentRef", "commands", "plan", "taskIds", "nativeRuns", "results", "assessment", "assessedAt", "measurements", "interpretation", "claimLimits", "producers", "adapters", "evidenceOwner", "sufficiencyDecision"],
       "properties": {
-        "schemaVersion": { "const": "quire-verification.vp04-report-core/v1" },
+        "schemaVersion": { "const": "filament-verification.vp04-report-core/v1" },
         "reportId": { "type": "string", "minLength": 1 },
         "candidateRef": { "$ref": "#/$defs/SharedArtifactEnvelope" },
         "subjectRef": { "$ref": "#/$defs/SharedArtifactEnvelope" },
@@ -2092,7 +2092,7 @@
         "assessment": { "type": "object" },
         "assessedAt": { "type": "string", "format": "date-time" },
         "measurements": { "$ref": "#/$defs/Vp04MeasurementSeries" },
-        "interpretation": { "const": "These observations describe only the selected quire-spec revision and exact fixture pair." },
+        "interpretation": { "const": "These observations describe only the selected filament-specification revision and exact fixture pair." },
         "claimLimits": {
           "const": [
             "The run establishes only the declared parser syntax responses and format stability for these fixtures.",
@@ -2110,7 +2110,7 @@
       "type": "object",
       "required": ["schemaVersion", "dispositionId", "coreDigest", "reviewer", "procedureRef", "observedAt", "value"],
       "properties": {
-        "schemaVersion": { "const": "quire-verification.vp04-disposition/v1" },
+        "schemaVersion": { "const": "filament-verification.vp04-disposition/v1" },
         "dispositionId": { "type": "string", "minLength": 1 },
         "coreDigest": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
         "reviewer": { "type": "string", "minLength": 1 },
@@ -2124,7 +2124,7 @@
       "type": "object",
       "required": ["schemaVersion", "core", "coreDigest", "dispositionRef", "disposition", "status"],
       "properties": {
-        "schemaVersion": { "const": "quire-verification.vp04-report/v1" },
+        "schemaVersion": { "const": "filament-verification.vp04-report/v1" },
         "core": { "$ref": "#/$defs/Vp04AutomatedReportCore" },
         "coreDigest": { "type": "string", "pattern": "^sha256-jcs:[0-9a-f]{64}$" },
         "dispositionRef": { "oneOf": [{ "$ref": "#/$defs/SharedArtifactEnvelope" }, { "type": "null" }] },

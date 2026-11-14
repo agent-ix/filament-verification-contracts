@@ -4,7 +4,7 @@ title: "Keep dynamic-depth canonicalization off the native traversal stack"
 type: NFR
 quality_attribute: reliability
 relationships:
-  - target: ix://agent-ix/quire-verification-contracts/FR-001
+  - target: ix://agent-ix/filament-verification-contracts/FR-001
     type: constrains
 ---
 # NFR-001: Keep dynamic-depth canonicalization off the native traversal stack
