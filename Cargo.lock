@@ -170,7 +170,7 @@ dependencies = [
 
 [[package]]
 name = "filament-verification-contracts"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "chrono",
  "jsonschema",
@@ -495,8 +495,8 @@ dependencies = [
 
 [[package]]
 name = "quire-canonical"
-version = "0.3.0"
-source = "git+https://github.com/agent-ix/quire-canonical?branch=main#e1e782619cf05cb81bb23fbe9ef9fb320cfb69ee"
+version = "0.3.1"
+source = "git+https://github.com/agent-ix/quire-canonical?tag=v0.3.1#2204c5c3fc0ca13dd655400d94e923edd2e8416c"
 dependencies = [
  "quire-canonical-derive",
  "ryu-js",
@@ -509,7 +509,7 @@ dependencies = [
 [[package]]
 name = "quire-canonical-derive"
 version = "0.3.0"
-source = "git+https://github.com/agent-ix/quire-canonical?branch=main#e1e782619cf05cb81bb23fbe9ef9fb320cfb69ee"
+source = "git+https://github.com/agent-ix/quire-canonical?tag=v0.3.1#2204c5c3fc0ca13dd655400d94e923edd2e8416c"
 dependencies = [
  "proc-macro2",
  "quote",
