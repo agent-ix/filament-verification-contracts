@@ -831,6 +831,52 @@ mod tests {
         assert_eq!(entry["leaves"], Value::Null);
     }
 
+    /// FR-322-AC-451's scale operations take an exact numeric factor and preserve the
+    /// quantity operand's type. They sit directly after quantity power in the catalog.
+    /// Trace: FR-322-AC-451
+    #[test]
+    fn the_embedded_document_pins_quantity_scaling() {
+        use serde_json::json;
+
+        let catalog = catalog();
+        let operations = catalog["operations"].as_array().expect("operations array");
+        let identity_at = |identity: &str| {
+            operations
+                .iter()
+                .position(|entry| entry["identity"] == identity)
+                .unwrap_or_else(|| panic!("`{identity}` is declared"))
+        };
+        let pow = identity_at("filament.op.quantity.pow");
+        let scale = identity_at("filament.op.quantity.scale");
+        let scale_div = identity_at("filament.op.quantity.scale_div");
+        assert_eq!(scale, pow + 1);
+        assert_eq!(scale_div, scale + 1);
+
+        assert_eq!(
+            catalog["groups"]["exact_numeric"],
+            json!(["integer", "rational", "decimal"])
+        );
+        for (identity, index) in [
+            ("filament.op.quantity.scale", scale),
+            ("filament.op.quantity.scale_div", scale_div),
+        ] {
+            let entry = &operations[index];
+            assert_eq!(entry["operator"], "binary", "{identity}");
+            assert_eq!(
+                entry["operands"],
+                json!(["quantity", "exact_numeric"]),
+                "{identity}"
+            );
+            assert_eq!(entry["rest"], Value::Null, "{identity}");
+            assert_eq!(entry["result"], "operand:0", "{identity}");
+            assert_eq!(entry["laws"], json!([]), "{identity}");
+            assert_eq!(entry["mode"], Value::Null, "{identity}");
+            assert_eq!(entry["member"], Value::Null, "{identity}");
+            assert_eq!(entry["constraints"], json!([]), "{identity}");
+            assert_eq!(entry["leaves"], Value::Null, "{identity}");
+        }
+    }
+
     /// The one-occurrence collection forms: `drop_first` takes one `sequence` or one
     /// `ordered_set` (a set or bag has no first occurrence, so no identity names them) and
     /// returns a collection of its operand's kind; `remove_one` takes any collection and a value of its
