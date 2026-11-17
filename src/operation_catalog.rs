@@ -833,6 +833,7 @@ mod tests {
 
     /// FR-322-AC-451's scale operations take an exact numeric factor and preserve the
     /// quantity operand's type. They sit directly after quantity power in the catalog.
+    /// Trace: FR-322-AC-451
     #[test]
     fn the_embedded_document_pins_quantity_scaling() {
         use serde_json::json;
