@@ -37,6 +37,9 @@ pub mod wire {
     include!(concat!(env!("OUT_DIR"), "/e02_contracts.rs"));
 }
 
+/// The `format: date-time` wire type used by the generated wire types.
+pub mod timestamp;
+
 /// The retained shared-reference packet: schemas, derived wire types and fixtures (VER-50).
 pub mod shared_reference;
 

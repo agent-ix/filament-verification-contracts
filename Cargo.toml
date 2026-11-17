@@ -5,7 +5,7 @@ undocumented_unsafe_blocks = "deny"
 
 [package]
 name = "filament-verification-contracts"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.98.1"
 description = "Public interface vocabulary for the E02 verification contract boundary and the retained shared-reference packet: schema-owned public contracts, RFC 8785 canonicalization, and bounded JSON ingestion."
@@ -25,11 +25,10 @@ path = "src/lib.rs"
 test-arbitrary-precision = ["serde_json/arbitrary_precision"]
 
 [dependencies]
-# Generated wire types (build.rs, via typify) use `chrono::DateTime<Utc>` for
-# `format: date-time` string schemas and `regress::Regex` for `pattern`-constrained
-# string newtypes. Neither is named directly in src/lib.rs, but both are load-bearing:
-# removing either breaks the OUT_DIR-generated e02_contracts.rs at compile time.
-chrono = { version = "0.4.42", default-features = false, features = ["serde"] }
+# Generated wire types (build.rs, via typify) use `regress::Regex` for `pattern`-constrained
+# string newtypes. It is not named directly in src/lib.rs, but it is load-bearing:
+# removing it breaks the OUT_DIR-generated e02_contracts.rs at compile time.
+# `format: date-time` schemas map to `crate::timestamp::Timestamp`, which parses with `time`.
 jsonschema = { version = "0.55.0", default-features = false }
 regress = "=0.11.1"
 serde = { version = "1.0.228", features = ["derive"] }
@@ -37,6 +36,7 @@ serde_json = "1.0.145"
 quire-canonical = { version = "0.3", git = "https://github.com/agent-ix/quire-canonical", tag = "v0.3.1", features = ["serde_json"] }
 sha2 = "0.10.9"
 thiserror = "2.0.16"
+time = { version = "0.3.47", default-features = false, features = ["parsing"] }
 
 [build-dependencies]
 schemars = "0.8.22"

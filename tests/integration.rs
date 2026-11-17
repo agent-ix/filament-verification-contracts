@@ -219,3 +219,122 @@ fn unknown_schema_definition_is_rejected() {
         .expect_err("an unknown definition name must be rejected");
     assert_eq!(error.code(), VerificationErrorCode::UnknownSchemaDefinition);
 }
+
+// Wire format of `format: date-time` fields. Expected strings were recorded from the previous
+// `chrono::DateTime<Utc>` representation: offsets normalize to UTC, and the fractional part is
+// written as 0, 3, 6 or 9 digits.
+const TIMESTAMP_WIRE_CASES: &[(&str, &str)] = &[
+    ("2026-01-01T00:00:00Z", "2026-01-01T00:00:00Z"),
+    ("2026-01-01T00:00:00z", "2026-01-01T00:00:00Z"),
+    ("2026-01-01t00:00:00Z", "2026-01-01T00:00:00Z"),
+    ("2026-01-01 00:00:00Z", "2026-01-01T00:00:00Z"),
+    ("2026-01-01T00:00:00.5Z", "2026-01-01T00:00:00.500Z"),
+    ("2026-01-01T00:00:00.123Z", "2026-01-01T00:00:00.123Z"),
+    ("2026-01-01T00:00:00.1234Z", "2026-01-01T00:00:00.123400Z"),
+    ("2026-01-01T00:00:00.123456Z", "2026-01-01T00:00:00.123456Z"),
+    (
+        "2026-01-01T00:00:00.1234567Z",
+        "2026-01-01T00:00:00.123456700Z",
+    ),
+    (
+        "2026-01-01T00:00:00.123456789Z",
+        "2026-01-01T00:00:00.123456789Z",
+    ),
+    ("2026-01-01T00:00:00.000Z", "2026-01-01T00:00:00Z"),
+    ("2026-01-01T00:00:00.000000000Z", "2026-01-01T00:00:00Z"),
+    ("2026-01-01T02:00:00+02:00", "2026-01-01T00:00:00Z"),
+    ("2026-01-01T02:00:00-00:00", "2026-01-01T02:00:00Z"),
+    ("2026-01-01T00:00:00+00:00", "2026-01-01T00:00:00Z"),
+    ("2026-01-01T00:00:00+23:59", "2025-12-31T00:01:00Z"),
+    ("2026-12-31T23:59:60Z", "2026-12-31T23:59:60Z"),
+    ("2026-12-31T23:59:60.5Z", "2026-12-31T23:59:60.500Z"),
+    (
+        "2026-12-31T23:59:59.999999999Z",
+        "2026-12-31T23:59:59.999999999Z",
+    ),
+    ("0000-01-01T00:00:00Z", "0000-01-01T00:00:00Z"),
+    ("9999-12-31T23:59:59Z", "9999-12-31T23:59:59Z"),
+    ("0001-01-01T00:00:00+05:00", "0000-12-31T19:00:00Z"),
+];
+
+const TIMESTAMP_REJECTED: &[&str] = &[
+    "",
+    "not a date",
+    "2026-01-01",
+    "2026-01-01T00:00:00",
+    "2026-01-01T02:00+02:00",
+    "2026-13-01T00:00:00Z",
+    "2026-02-30T00:00:00Z",
+    "2026-01-01T24:00:00Z",
+    "2026-01-01T00:00:00+24:00",
+    "2026-01-01T00:00:00,5Z",
+    "2026-01-01T00:00:00.Z",
+    "2026-01-01T00:00:00+02",
+    "20260101T000000Z",
+    "2026-01-01T00:00:00+02:30:15",
+    "12026-01-01T00:00:00Z",
+    " 2026-01-01T00:00:00Z",
+    "2026-01-01T00:00:00Z ",
+    "2026-1-1T00:00:00Z",
+    "2026-01-01T0:00:00Z",
+    "+10000-01-01T00:00:00Z",
+    "9999-12-31T23:59:59-05:00",
+    "9999-12-31T23:00:00-02:00",
+    "2026-01-01_00:00:00Z",
+    "2026-01-01x00:00:00Z",
+    "0000-01-01T00:00:00+00:01",
+    "0000-01-01T00:00:00+05:00",
+    "2026-01-01T00:00:00 +02:00",
+    "2026-01-01T00:00:00+0200",
+    "2026-01-01T00:00:00\u{2212}02:00",
+    "2026-01-01T00:00:00 UTC",
+];
+
+#[test]
+fn existing_technique_result_fixture_round_trips_byte_identically() {
+    let fixture = minimal_technique_result();
+    let typed: filament_verification_contracts::wire::TechniqueResult =
+        serde_json::from_value(fixture.clone()).expect("fixture decodes into wire types");
+    let reserialized = serde_json::to_value(&typed).expect("wire type serializes");
+    assert_eq!(reserialized["producedAt"], "2026-01-01T00:00:00Z");
+    assert_eq!(
+        serde_json::to_string(&reserialized).expect("serializes"),
+        serde_json::to_string(&fixture).expect("serializes"),
+    );
+}
+
+#[test]
+fn wire_timestamps_keep_the_chrono_era_wire_format() {
+    for (input, expected) in TIMESTAMP_WIRE_CASES {
+        let mut fixture = minimal_technique_result();
+        fixture["producedAt"] = json!(input);
+        let typed: filament_verification_contracts::wire::TechniqueResult =
+            serde_json::from_value(fixture).unwrap_or_else(|e| panic!("{input} rejected: {e}"));
+        let out = serde_json::to_value(&typed).expect("wire type serializes");
+        assert_eq!(out["producedAt"], *expected, "input {input}");
+    }
+}
+
+#[test]
+fn wire_timestamps_reject_invalid_date_times() {
+    for input in TIMESTAMP_REJECTED {
+        let mut fixture = minimal_technique_result();
+        fixture["producedAt"] = json!(input);
+        assert!(
+            serde_json::from_value::<filament_verification_contracts::wire::TechniqueResult>(
+                fixture
+            )
+            .is_err(),
+            "{input:?} must be rejected"
+        );
+    }
+}
+
+#[test]
+fn timestamp_equality_distinguishes_a_leap_second_from_the_second_before() {
+    use filament_verification_contracts::timestamp::Timestamp;
+    let leap: Timestamp = "2026-12-31T23:59:60Z".parse().expect("leap second");
+    let before: Timestamp = "2026-12-31T23:59:59Z".parse().expect("timestamp");
+    assert_ne!(leap, before);
+    assert_eq!(leap.to_string(), "2026-12-31T23:59:60Z");
+}

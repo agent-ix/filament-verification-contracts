@@ -20,7 +20,7 @@ error code and does not panic.
   <img alt="filament-verification-contracts owns five shared vocabularies: the five public verification contracts with their error codes, bounded JSON intake, RFC 8785 identity, the shared-reference packet and the checked-operation catalog. The filament-verification re-exports all of it, filament-protocol uses the contracts directly, filament-contract-ir reads the catalog, and the packet is a temporary copy from filament-specification." src="docs/images/hero-light.svg">
 </picture>
 
-> **Status: public prerelease.** The crate is version 0.1.0 and is not
+> **Status: public prerelease.** The crate is version 0.2.0 and is not
 > published to a registry. The contract schema is a draft (`e02-draft-2`), so
 > expect breaking changes.
 
@@ -148,7 +148,7 @@ and for the schema definitions that only `filament-verification` uses.
 
 Its only dependency from the Quire family is [quire-canonical](https://github.com/agent-ix/quire-canonical),
 the authoritative JCS encoder (its other
-dependencies are `chrono`, `regress`, `serde`, `serde_json`, `sha2`,
+dependencies are `regress`, `serde`, `serde_json`, `sha2`, `time`,
 `jsonschema`, `thiserror` and the build-time code generator `typify`). The
 `filament-verification` depends on it and re-exports it, `filament-protocol`
 depends on it directly,
