@@ -9,9 +9,9 @@ use std::error::Error;
 use std::fs;
 use std::path::PathBuf;
 
-use schemars::schema::RootSchema;
+use schemars::schema::{InstanceType, RootSchema, SchemaObject};
 use serde_json::Value;
-use typify::{TypeSpace, TypeSpaceSettings};
+use typify::{TypeSpace, TypeSpaceImpl, TypeSpaceSettings};
 
 const E02_SCHEMA_PATH: &str = "contracts/e02-draft-2.schema.json";
 const SHARED_V1_SCHEMA_PATH: &str = "contracts/shared-reference-1-draft.schema.json";
@@ -58,6 +58,15 @@ fn main() -> Result<(), Box<dyn Error>> {
     let root: RootSchema = serde_json::from_value(schema)?;
     let mut settings = TypeSpaceSettings::default();
     settings.with_map_type("::std::collections::BTreeMap".to_owned());
+    settings.with_conversion(
+        SchemaObject {
+            instance_type: Some(InstanceType::String.into()),
+            format: Some("date-time".to_owned()),
+            ..Default::default()
+        },
+        "crate::timestamp::Timestamp",
+        [TypeSpaceImpl::Display, TypeSpaceImpl::FromStr].into_iter(),
+    );
     let mut type_space = TypeSpace::new(&settings);
 
     let mut shared: Value = serde_json::from_str(&fs::read_to_string(SHARED_V2_SCHEMA_PATH)?)?;

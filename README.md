@@ -148,7 +148,7 @@ and for the schema definitions that only `filament-verification` uses.
 
 Its only dependency from the Quire family is [quire-canonical](https://github.com/agent-ix/quire-canonical),
 the authoritative JCS encoder (its other
-dependencies are `chrono`, `regress`, `serde`, `serde_json`, `sha2`,
+dependencies are `regress`, `serde`, `serde_json`, `sha2`, `time`,
 `jsonschema`, `thiserror` and the build-time code generator `typify`). The
 `filament-verification` depends on it and re-exports it, `filament-protocol`
 depends on it directly,
