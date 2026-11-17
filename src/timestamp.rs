@@ -17,7 +17,7 @@ use time::format_description::well_known::Rfc3339;
 use time::{OffsetDateTime, UtcOffset};
 
 /// An RFC 3339 `date-time` instant in UTC.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Timestamp {
     at: OffsetDateTime,
     /// `true` for an RFC 3339 leap second (`:60`), stored as `:59`.
@@ -42,6 +42,11 @@ impl FromStr for Timestamp {
     fn from_str(text: &str) -> Result<Self, Self::Err> {
         // `time` folds an RFC 3339 leap second (`:60`) into `:59.999999999`, which would lose
         // the second and its fraction. Parse the second as `:59` and remember the leap instead.
+        // RFC 3339 allows only `T`, `t` or a space between the date and the time, but `time`
+        // accepts any single byte there.
+        if !matches!(text.as_bytes().get(10), Some(b'T' | b't' | b' ')) {
+            return Err(TimestampError);
+        }
         let leap_second = text.get(17..19) == Some("60");
         let parsed = if leap_second {
             let mut shifted = text.to_owned();
@@ -54,6 +59,10 @@ impl FromStr for Timestamp {
         let at = parsed
             .checked_to_offset(UtcOffset::UTC)
             .ok_or(TimestampError)?;
+        // RFC 3339 years are four digits; a UTC year before 0000 has no representation.
+        if at.year() < 0 {
+            return Err(TimestampError);
+        }
         Ok(Self { at, leap_second })
     }
 }

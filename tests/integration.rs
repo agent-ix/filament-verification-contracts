@@ -273,6 +273,21 @@ const TIMESTAMP_REJECTED: &[&str] = &[
     "20260101T000000Z",
     "2026-01-01T00:00:00+02:30:15",
     "12026-01-01T00:00:00Z",
+    " 2026-01-01T00:00:00Z",
+    "2026-01-01T00:00:00Z ",
+    "2026-1-1T00:00:00Z",
+    "2026-01-01T0:00:00Z",
+    "+10000-01-01T00:00:00Z",
+    "9999-12-31T23:59:59-05:00",
+    "9999-12-31T23:00:00-02:00",
+    "2026-01-01_00:00:00Z",
+    "2026-01-01x00:00:00Z",
+    "0000-01-01T00:00:00+00:01",
+    "0000-01-01T00:00:00+05:00",
+    "2026-01-01T00:00:00 +02:00",
+    "2026-01-01T00:00:00+0200",
+    "2026-01-01T00:00:00\u{2212}02:00",
+    "2026-01-01T00:00:00 UTC",
 ];
 
 #[test]
@@ -313,4 +328,13 @@ fn wire_timestamps_reject_invalid_date_times() {
             "{input:?} must be rejected"
         );
     }
+}
+
+#[test]
+fn timestamp_equality_distinguishes_a_leap_second_from_the_second_before() {
+    use filament_verification_contracts::timestamp::Timestamp;
+    let leap: Timestamp = "2026-12-31T23:59:60Z".parse().expect("leap second");
+    let before: Timestamp = "2026-12-31T23:59:59Z".parse().expect("timestamp");
+    assert_ne!(leap, before);
+    assert_eq!(leap.to_string(), "2026-12-31T23:59:60Z");
 }
