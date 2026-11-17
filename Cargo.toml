@@ -5,7 +5,7 @@ undocumented_unsafe_blocks = "deny"
 
 [package]
 name = "filament-verification-contracts"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 rust-version = "1.98.1"
 description = "Public interface vocabulary for the E02 verification contract boundary and the retained shared-reference packet: schema-owned public contracts, RFC 8785 canonicalization, and bounded JSON ingestion."
@@ -34,7 +34,7 @@ jsonschema = { version = "0.55.0", default-features = false }
 regress = "=0.11.1"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.145"
-quire-canonical = { git = "https://github.com/agent-ix/quire-canonical", branch = "main", features = ["serde_json"] }
+quire-canonical = { version = "0.3", git = "https://github.com/agent-ix/quire-canonical", tag = "v0.3.1", features = ["serde_json"] }
 sha2 = "0.10.9"
 thiserror = "2.0.16"
 
