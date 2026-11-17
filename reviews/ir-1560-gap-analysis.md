@@ -53,3 +53,11 @@ pre-existing state of the generated wire module, which is also unspecified.
 - Stubs / coverage inflation: none found.
 - Semantic review: skipped (not requested; the reviewer's differential run covers intent for the date-time contract).
 - Plan completion: not assessed
+
+## Dispositions
+
+Round 1, checked at f6b798e8ac7a4a4c642c5557f68595e5ecd1eff1.
+
+| FND | outcome | reason |
+| --- | --- | --- |
+| FND-001 | accepted-no-change | The PR body records why: no requirement in spec/ covers the generated wire types or a timestamp type (date-time is declared only in the E02 schema), so there is no criterion to tag. Writing a wire-type requirement is spec work outside IR-1560's scope |
