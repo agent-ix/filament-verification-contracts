@@ -168,6 +168,7 @@ dependencies = [
 name = "filament-verification-contracts"
 version = "0.2.0"
 dependencies = [
+ "ix-trace-rs",
  "jsonschema",
  "quire-canonical",
  "regress",
@@ -264,6 +265,11 @@ name = "itoa"
 version = "1.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
+
+[[package]]
+name = "ix-trace-rs"
+version = "0.1.2"
+source = "git+https://github.com/agent-ix/ix-trace-rs?branch=main#3cd3285055e32e4c08fb124d76e489b9dd412b6b"
 
 [[package]]
 name = "js-sys"
