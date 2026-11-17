@@ -20,7 +20,7 @@ error code and does not panic.
   <img alt="filament-verification-contracts owns five shared vocabularies: the five public verification contracts with their error codes, bounded JSON intake, RFC 8785 identity, the shared-reference packet and the checked-operation catalog. The filament-verification re-exports all of it, filament-protocol uses the contracts directly, filament-contract-ir reads the catalog, and the packet is a temporary copy from filament-specification." src="docs/images/hero-light.svg">
 </picture>
 
-> **Status: public prerelease.** The crate is version 0.1.0 and is not
+> **Status: public prerelease.** The crate is version 0.2.0 and is not
 > published to a registry. The contract schema is a draft (`e02-draft-2`), so
 > expect breaking changes.
 
