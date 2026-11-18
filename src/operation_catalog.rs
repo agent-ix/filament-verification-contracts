@@ -33,6 +33,7 @@ pub const CHECKED_OPERATION_CATALOG_V1: &str =
 mod tests {
     use std::collections::BTreeSet;
 
+    use ix_trace_rs::trace;
     use serde_json::Value;
 
     use super::*;
@@ -233,6 +234,55 @@ mod tests {
                 "`{vocabulary}` is empty, so every entry referring to it is unresolvable"
             );
         }
+    }
+
+    /// The refinement history, `only` and `seq` operations are admitted
+    /// with their declared operands, member kinds, results and constraints.
+    #[trace("FR-322-AC-17")]
+    #[test]
+    fn refinement_history_and_sequence_operations_are_catalogued() {
+        use serde_json::json;
+
+        let catalog = catalog();
+        let operation = |identity: &str| -> Value {
+            catalog["operations"]
+                .as_array()
+                .expect("operations array")
+                .iter()
+                .find(|entry| entry["identity"] == identity)
+                .unwrap_or_else(|| panic!("operation `{identity}` is declared"))
+                .clone()
+        };
+        let history = operation("filament.op.refinement.history");
+        assert_eq!(history["operator"], "query");
+        assert_eq!(history["operands"], json!(["reference"]));
+        assert_eq!(history["result"], "member");
+        assert_eq!(history["member"], "history");
+        let only = operation("filament.op.collection.only");
+        assert_eq!(only["operator"], "collection");
+        assert_eq!(only["operands"], json!(["collection_kind", "binder"]));
+        assert_eq!(only["result"], "member");
+        assert_eq!(only["member"], "type_argument");
+        assert_eq!(
+            only["constraints"],
+            json!([{"kind":"bound_is_member","operands":[1],"family":null}])
+        );
+        let seq = operation("filament.op.collection.seq");
+        assert_eq!(seq["operator"], "collection");
+        assert_eq!(seq["operands"], json!(["integer", "integer", "binder"]));
+        assert_eq!(seq["result"], "sequence");
+        assert_eq!(seq["member"], "type_argument");
+        assert_eq!(
+            seq["constraints"],
+            json!([{"kind":"bound_is_member","operands":[2],"family":null}])
+        );
+        assert!(
+            catalog["member_kinds"]
+                .as_array()
+                .expect("member kinds")
+                .iter()
+                .any(|kind| kind == "history")
+        );
     }
 
     /// The object family, the `field_owner` group, the `conforming_reference` kind and

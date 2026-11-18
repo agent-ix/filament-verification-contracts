@@ -9,6 +9,7 @@ use filament_verification_contracts::{
     MAX_ARRAY_ITEMS, MAX_JSON_BYTES, MAX_JSON_DEPTH, VerificationErrorCode, jcs_canonicalize,
     jcs_equal, jcs_sha256, parse_bounded_json, validate_resource_envelope,
 };
+use ix_trace_rs::trace;
 use quire_canonical::{Encode, Error, FixedShape, Limits, Sink, Writer, drop_value, read};
 use serde_json::{Value, json};
 
@@ -68,7 +69,7 @@ impl Encode for Observed<'_> {
     }
 }
 
-/// Trace: FR-001-AC-4
+#[trace("FR-001-AC-4")]
 #[test]
 fn equality_refuses_left_before_invoking_right_and_reports_right_refusal() {
     let left_calls = Cell::new(0);
@@ -112,7 +113,7 @@ fn generic_encode<T: Encode + ?Sized>(value: &T) -> Vec<u8> {
     jcs_canonicalize(value).unwrap()
 }
 
-/// Trace: FR-001-AC-1
+#[trace("FR-001-AC-1")]
 #[test]
 fn fixed_shape_value_document_noderef_iterative_and_unsized_callers_compile_and_encode() {
     assert_eq!(generic_encode(&Dto { a: 1 }), b"{\"a\":1}");
@@ -124,7 +125,7 @@ fn fixed_shape_value_document_noderef_iterative_and_unsized_callers_compile_and_
     assert_eq!(generic_encode("text"), b"\"text\"");
 }
 
-/// Trace: FR-001-AC-6
+#[trace("FR-001-AC-6")]
 #[test]
 fn canonicalization_does_not_apply_ingestion_depth_array_or_byte_caps() {
     let mut value = IterativeValue::null();
@@ -166,7 +167,7 @@ fn canonicalization_does_not_apply_ingestion_depth_array_or_byte_caps() {
     );
 }
 
-/// Trace: FR-001-AC-1, FR-001-AC-6, NFR-001-M-1, NFR-001-M-2
+#[trace("FR-001-AC-1", "FR-001-AC-6", "NFR-001-M-1", "NFR-001-M-2")]
 #[test]
 fn deep_value_and_iterative_arrays_agree_on_small_and_large_native_stacks() {
     const DEPTH: usize = 100_000;
@@ -212,7 +213,7 @@ fn deep_value_and_iterative_arrays_agree_on_small_and_large_native_stacks() {
     assert_eq!(outcomes[0], outcomes[1]);
 }
 
-/// Trace: FR-001-AC-6
+#[trace("FR-001-AC-6")]
 #[test]
 fn deep_object_chain_uses_authoritative_output_byte_accounting() {
     const DEPTH: usize = 10_000;
@@ -243,7 +244,7 @@ impl Encode for PanickingSource {
     }
 }
 
-/// Trace: NFR-001-M-1
+#[trace("NFR-001-M-1")]
 #[test]
 fn deep_fixture_cleanup_keeps_original_construction_and_encoding_panics() {
     std::thread::Builder::new()

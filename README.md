@@ -20,7 +20,7 @@ error code and does not panic.
   <img alt="filament-verification-contracts owns five shared vocabularies: the five public verification contracts with their error codes, bounded JSON intake, RFC 8785 identity, the shared-reference packet and the checked-operation catalog. The filament-verification re-exports all of it, filament-protocol uses the contracts directly, filament-contract-ir reads the catalog, and the packet is a temporary copy from filament-specification." src="docs/images/hero-light.svg">
 </picture>
 
-> **Status: public prerelease.** The crate is version 0.2.0 and is not
+> **Status: public prerelease.** The crate is version 0.2.1 and is not
 > published to a registry. The contract schema is a draft (`e02-draft-2`), so
 > expect breaking changes.
 
@@ -131,7 +131,7 @@ and [depth safety requirement](spec/non-functional/NFR-001-jcs-depth-safety.md).
 | --- | --- |
 | `contracts/e02-draft-2.schema.json` | The authoritative definition of the five public contracts. The build generates the `wire` types from it and `validate_contract` compiles it at runtime. |
 | `contracts/shared-reference-1-draft.schema.json`, `contracts/shared-reference-2-draft/schema.json`, `fixtures/shared-reference-2-draft/` | The shared-reference packet: two schemas and fourteen fixtures, a data-only copy of what `filament-specification` defines. It is temporary and is deleted here once its source has a public home. |
-| `contracts/checked-operation-catalog-v1.json` | The closed `filament.checked-operation-catalog/v1` vocabulary: 185 operations with their operand families, result forms and constraints. This crate is its only home. |
+| `contracts/checked-operation-catalog-v1.json` | The closed `filament.checked-operation-catalog/v1` vocabulary: 188 operations with their operand families, result forms and constraints. This crate is its only home. |
 
 The catalog is published as raw bytes. The reader that decides what the catalog
 admits lives in `filament-contract-ir`, so a second parse here would define the

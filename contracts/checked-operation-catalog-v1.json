@@ -35,7 +35,7 @@
     "rounding": ["decimal", "float32", "float64", "quantity"],
     "text_profile": ["text"]
   },
-  "member_kinds": ["field", "position", "element", "relationship_end", "operation", "type_argument", "profile_operator", "state_clause", "temporal_interval", "fairness"],
+  "member_kinds": ["field", "position", "element", "relationship_end", "operation", "type_argument", "profile_operator", "state_clause", "temporal_interval", "fairness", "history"],
   "constraint_kinds": ["same_family", "same_type", "conforming_reference", "reference_edge", "same_dimension", "inner_type", "member_of", "member_family", "bound_family", "bound_is_member", "carried_member", "exact_conversion", "range_narrowing", "rational_narrowing", "scale_reduction", "promotes_exact", "uniform_rest", "union_arms"],
   "result_forms": ["<family>", "operand:<n>", "kind:<n>", "inner:<n>", "return:<n>", "member", "absence", "arm_body"],
   "leaf_sources": ["operand:0", "inner:0", "result_inner"],
@@ -199,6 +199,8 @@
     {"identity": "filament.op.collection.fold", "operator": "collection", "operands": ["collection_kind", "binder", "any_value"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "bound_is_member", "operands": [1], "family": null}], "leaves": null},
     {"identity": "filament.op.collection.reduce", "operator": "collection", "operands": ["collection_kind", "binder"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "bound_is_member", "operands": [1], "family": null}], "leaves": null},
     {"identity": "filament.op.collection.count", "operator": "collection", "operands": ["collection_kind", "binder"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "member_family", "operands": [], "family": "integer"}, {"kind": "bound_family", "operands": [1], "family": "boolean"}], "leaves": null},
+    {"identity": "filament.op.collection.only", "operator": "collection", "operands": ["collection_kind", "binder"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "bound_is_member", "operands": [1], "family": null}], "leaves": null},
+    {"identity": "filament.op.collection.seq", "operator": "collection", "operands": ["integer", "integer", "binder"], "rest": null, "result": "sequence", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "bound_is_member", "operands": [2], "family": null}], "leaves": null},
     {"identity": "filament.op.collection.sum.integer", "operator": "collection", "operands": ["collection_kind", "binder"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "member_family", "operands": [], "family": "integer"}, {"kind": "bound_family", "operands": [1], "family": "integer"}], "leaves": null},
     {"identity": "filament.op.collection.sum.rational", "operator": "collection", "operands": ["collection_kind", "binder"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "member_family", "operands": [], "family": "rational"}, {"kind": "bound_family", "operands": [1], "family": "rational"}], "leaves": null},
     {"identity": "filament.op.collection.sum.decimal", "operator": "collection", "operands": ["collection_kind", "binder"], "rest": null, "result": "member", "laws": [], "mode": "rounding", "member": "type_argument", "constraints": [{"kind": "member_family", "operands": [], "family": "decimal"}, {"kind": "bound_family", "operands": [1], "family": "decimal"}], "leaves": null},
@@ -217,6 +219,7 @@
     {"identity": "filament.op.model.reaches", "operator": "reaches", "operands": ["reference", "reference"], "rest": null, "result": "boolean", "laws": [], "mode": null, "member": "relationship_end", "constraints": [], "leaves": null},
     {"identity": "filament.op.model.lookup", "operator": "query", "operands": ["population", "reference"], "rest": null, "result": "absence", "laws": [], "mode": "absence", "member": "type_argument", "constraints": [], "leaves": null},
     {"identity": "filament.op.model.all_instances", "operator": "query", "operands": ["population"], "rest": null, "result": "set", "laws": [], "mode": null, "member": "type_argument", "constraints": [], "leaves": null},
+    {"identity": "filament.op.refinement.history", "operator": "query", "operands": ["reference"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "history", "constraints": [], "leaves": null},
     {"identity": "filament.op.model.dispatch_call", "operator": "call", "operands": ["reference"], "rest": "any_term", "result": "member", "laws": [], "mode": null, "member": "operation", "constraints": [], "leaves": null},
 
     {"identity": "filament.op.function.call", "operator": "call", "operands": ["function"], "rest": "any_term", "result": "return:0", "laws": [], "mode": null, "member": null, "constraints": [], "leaves": null},
