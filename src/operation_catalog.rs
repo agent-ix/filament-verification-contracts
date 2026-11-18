@@ -33,6 +33,7 @@ pub const CHECKED_OPERATION_CATALOG_V1: &str =
 mod tests {
     use std::collections::BTreeSet;
 
+    use ix_trace_rs::trace;
     use serde_json::Value;
 
     use super::*;
@@ -235,9 +236,9 @@ mod tests {
         }
     }
 
-    /// FR-322's refinement history, `only` and `seq` operations are admitted
+    /// The refinement history, `only` and `seq` operations are admitted
     /// with their declared operands, member kinds, results and constraints.
-    #[ix_trace_rs::trace("FR-322-AC-17")]
+    #[trace("FR-322-AC-17")]
     #[test]
     fn refinement_history_and_sequence_operations_are_catalogued() {
         use serde_json::json;

@@ -5,6 +5,7 @@
 
 use std::collections::BTreeMap;
 
+use ix_trace_rs::trace;
 use filament_verification_contracts::{
     VerificationErrorCode, jcs_canonicalize, jcs_equal, jcs_sha256,
 };
@@ -125,55 +126,55 @@ struct FloatObject<T: FixedShape> {
     x: T,
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_nan_scalar() {
     refused(&f32::NAN);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_nan_array() {
     refused(&[f32::NAN]);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_nan_object() {
     refused(&FloatObject { x: f32::NAN });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_positive_infinity_scalar() {
     refused(&f32::INFINITY);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_positive_infinity_array() {
     refused(&[f32::INFINITY]);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_positive_infinity_object() {
     refused(&FloatObject { x: f32::INFINITY });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_negative_infinity_scalar() {
     refused(&f32::NEG_INFINITY);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_negative_infinity_array() {
     refused(&[f32::NEG_INFINITY]);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f32_negative_infinity_object() {
     refused(&FloatObject {
@@ -181,55 +182,55 @@ fn nonfinite_f32_negative_infinity_object() {
     });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_nan_scalar() {
     refused(&f64::NAN);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_nan_array() {
     refused(&[f64::NAN]);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_nan_object() {
     refused(&FloatObject { x: f64::NAN });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_positive_infinity_scalar() {
     refused(&f64::INFINITY);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_positive_infinity_array() {
     refused(&[f64::INFINITY]);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_positive_infinity_object() {
     refused(&FloatObject { x: f64::INFINITY });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_negative_infinity_scalar() {
     refused(&f64::NEG_INFINITY);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_negative_infinity_array() {
     refused(&[f64::NEG_INFINITY]);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn nonfinite_f64_negative_infinity_object() {
     refused(&FloatObject {
@@ -252,7 +253,7 @@ impl Serialize for RepeatedNames {
     }
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn repeated_member_names_refuse_instead_of_retaining_a_member() {
     refused(&RepeatedNames {
@@ -260,236 +261,236 @@ fn repeated_member_names_refuse_instead_of_retaining_a_member() {
     });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_i64_just_above_refuses() {
     refused(&9_007_199_254_740_993_i64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_i128_just_above_refuses() {
     refused(&i128::from(9_007_199_254_740_993_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_i64_just_above_refuses() {
     refused(&-9_007_199_254_740_993_i64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_i128_just_above_refuses() {
     refused(&-i128::from(9_007_199_254_740_993_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_value_just_above_refuses() {
     refused(&json!(9_007_199_254_740_993_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_value_just_above_refuses() {
     refused(&json!(-9_007_199_254_740_993_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_i64_two_pow_60_refuses() {
     refused(&1_152_921_504_606_846_976_i64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_i128_two_pow_60_refuses() {
     refused(&i128::from(1_152_921_504_606_846_976_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_i64_two_pow_60_refuses() {
     refused(&-1_152_921_504_606_846_976_i64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_i128_two_pow_60_refuses() {
     refused(&-i128::from(1_152_921_504_606_846_976_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_value_two_pow_60_refuses() {
     refused(&json!(1_152_921_504_606_846_976_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_value_two_pow_60_refuses() {
     refused(&json!(-1_152_921_504_606_846_976_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_i64_max_refuses() {
     refused(&9_223_372_036_854_775_807_i64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_i128_widened_i64_max_refuses() {
     refused(&i128::from(9_223_372_036_854_775_807_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_i64_max_refuses() {
     refused(&-9_223_372_036_854_775_807_i64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_i128_max_refuses() {
     refused(&-i128::from(9_223_372_036_854_775_807_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_value_max_refuses() {
     refused(&json!(9_223_372_036_854_775_807_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_negative_value_max_refuses() {
     refused(&json!(-9_223_372_036_854_775_807_i64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_u64_just_above_refuses() {
     refused(&9_007_199_254_740_993_u64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_u128_just_above_refuses() {
     refused(&u128::from(9_007_199_254_740_993_u64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_unsigned_value_just_above_refuses() {
     refused(&json!(9_007_199_254_740_993_u64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_u64_two_pow_60_refuses() {
     refused(&1_152_921_504_606_846_976_u64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_u128_two_pow_60_refuses() {
     refused(&u128::from(1_152_921_504_606_846_976_u64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_unsigned_value_two_pow_60_refuses() {
     refused(&json!(1_152_921_504_606_846_976_u64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_u64_max_refuses() {
     refused(&18_446_744_073_709_551_615_u64);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_u128_widened_u64_max_refuses() {
     refused(&u128::from(18_446_744_073_709_551_615_u64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_unsigned_value_max_refuses() {
     refused(&json!(18_446_744_073_709_551_615_u64));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_i128_min_refuses() {
     refused(&i128::MIN);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_i128_max_refuses() {
     refused(&i128::MAX);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn numeric_u128_max_refuses() {
     refused(&u128::MAX);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[cfg(target_pointer_width = "64")]
 #[test]
 fn numeric_isize_above_refuses() {
     refused(&(9_007_199_254_740_993_isize));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[cfg(target_pointer_width = "64")]
 #[test]
 fn numeric_negative_isize_above_refuses() {
     refused(&(-9_007_199_254_740_993_isize));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[cfg(target_pointer_width = "64")]
 #[test]
 fn numeric_usize_above_refuses() {
     refused(&(9_007_199_254_740_993_usize));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[cfg(target_pointer_width = "64")]
 #[test]
 fn numeric_isize_two_pow_60_refuses() {
     refused(&(1_isize << 60));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[cfg(target_pointer_width = "64")]
 #[test]
 fn numeric_negative_isize_two_pow_60_refuses() {
     refused(&(-(1_isize << 60)));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[cfg(target_pointer_width = "64")]
 #[test]
 fn numeric_usize_two_pow_60_refuses() {
     refused(&(1_usize << 60));
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[cfg(target_pointer_width = "64")]
 #[test]
 fn numeric_usize_max_refuses() {
     refused(&(usize::MAX));
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn integer_boundaries_strings_and_finite_double_values_keep_literal_bytes() {
     accepted(&9_007_199_254_740_992_u64, b"9007199254740992");
@@ -508,7 +509,7 @@ fn integer_boundaries_strings_and_finite_double_values_keep_literal_bytes() {
     accepted(&0.1_f32, b"0.10000000149011612");
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn utf16_order_escaping_unicode_and_array_order_match_literal_bytes() {
     let value = json!({"\u{e000}": 1, "\u{1f600}": 2});
@@ -540,7 +541,7 @@ impl Serialize for SerializationRefusal {
     }
 }
 
-/// Trace: FR-001-AC-4
+#[trace("FR-001-AC-4")]
 #[test]
 fn custom_serialization_errors_keep_the_stable_public_code() {
     refused(&SerializationRefusal {
@@ -548,7 +549,7 @@ fn custom_serialization_errors_keep_the_stable_public_code() {
     });
 }
 
-/// Trace: FR-001-AC-5
+#[trace("FR-001-AC-5")]
 #[test]
 fn content_identity_has_the_full_literal_digest_and_changes_with_content() {
     assert_eq!(
@@ -561,7 +562,7 @@ fn content_identity_has_the_full_literal_digest_and_changes_with_content() {
     );
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn u64_max_member_name_keeps_literal_bytes_and_identity() {
     accepted_name(
@@ -571,7 +572,7 @@ fn u64_max_member_name_keeps_literal_bytes_and_identity() {
     );
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn i128_min_member_name_keeps_literal_bytes_and_identity() {
     accepted_name(
@@ -581,7 +582,7 @@ fn i128_min_member_name_keeps_literal_bytes_and_identity() {
     );
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn i128_max_member_name_keeps_literal_bytes_and_identity() {
     accepted_name(
@@ -591,7 +592,7 @@ fn i128_max_member_name_keeps_literal_bytes_and_identity() {
     );
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn u128_max_member_name_keeps_literal_bytes_and_identity() {
     accepted_name(
@@ -622,7 +623,7 @@ impl Serialize for MixedNames {
     }
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn mixed_small_names_integer_first_refuse() {
     refused(&MixedNames {
@@ -632,7 +633,7 @@ fn mixed_small_names_integer_first_refuse() {
     });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn mixed_small_names_string_first_refuse() {
     refused(&MixedNames {
@@ -642,7 +643,7 @@ fn mixed_small_names_string_first_refuse() {
     });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn mixed_large_names_integer_first_refuse() {
     refused(&MixedNames {
@@ -652,7 +653,7 @@ fn mixed_large_names_integer_first_refuse() {
     });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn mixed_large_names_string_first_refuse() {
     refused(&MixedNames {
@@ -678,37 +679,37 @@ impl<T: Serialize> Serialize for SingleName<T> {
     }
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn true_member_name_refuses() {
     refused(&SingleName { name: true });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn false_member_name_refuses() {
     refused(&SingleName { name: false });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn f32_finite_member_name_refuses() {
     refused(&SingleName { name: 1.5_f32 });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn f32_negative_zero_member_name_refuses() {
     refused(&SingleName { name: -0.0_f32 });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn f64_finite_member_name_refuses() {
     refused(&SingleName { name: 1.5_f64 });
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn f64_negative_zero_member_name_refuses() {
     refused(&SingleName { name: -0.0_f64 });
@@ -725,7 +726,7 @@ struct TextName(String);
 #[derive(Serialize, FixedShape, Eq, Ord, PartialEq, PartialOrd)]
 struct IntegerName(u64);
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn char_member_name_keeps_literal_bytes_and_identity() {
     accepted_name(
@@ -735,7 +736,7 @@ fn char_member_name_keeps_literal_bytes_and_identity() {
     );
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn unit_variant_member_name_keeps_literal_bytes_and_identity() {
     accepted_name(
@@ -745,7 +746,7 @@ fn unit_variant_member_name_keeps_literal_bytes_and_identity() {
     );
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn string_newtype_member_name_keeps_literal_bytes_and_identity() {
     accepted_name(
@@ -755,7 +756,7 @@ fn string_newtype_member_name_keeps_literal_bytes_and_identity() {
     );
 }
 
-/// Trace: FR-001-AC-3
+#[trace("FR-001-AC-3")]
 #[test]
 fn integer_newtype_member_name_keeps_literal_bytes_and_identity() {
     accepted_name(
@@ -765,7 +766,7 @@ fn integer_newtype_member_name_keeps_literal_bytes_and_identity() {
     );
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn option_string_some_member_name_refuses() {
     let map: BTreeMap<Option<String>, i32> = BTreeMap::from([(Some("x".to_owned()), 1_i32)]);
@@ -774,7 +775,7 @@ fn option_string_some_member_name_refuses() {
     refused_against(&map, &control);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn option_string_none_member_name_refuses() {
     let map: BTreeMap<Option<String>, i32> = BTreeMap::from([(None, 1_i32)]);
@@ -783,7 +784,7 @@ fn option_string_none_member_name_refuses() {
     refused_against(&map, &control);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn option_integer_some_member_name_refuses() {
     let map: BTreeMap<Option<i32>, i32> = BTreeMap::from([(Some(1_i32), 1_i32)]);
@@ -792,7 +793,7 @@ fn option_integer_some_member_name_refuses() {
     refused_against(&map, &control);
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[test]
 fn option_integer_none_member_name_refuses() {
     let map: BTreeMap<Option<i32>, i32> = BTreeMap::from([(None, 1_i32)]);
@@ -801,7 +802,7 @@ fn option_integer_none_member_name_refuses() {
     refused_against(&map, &control);
 }
 
-/// Trace: FR-001-AC-7
+#[trace("FR-001-AC-7")]
 #[test]
 fn original_shared_reference_vectors_keep_canonical_bytes_and_content_identities() {
     use filament_verification_contracts::shared_reference::fixtures;
@@ -817,7 +818,7 @@ fn original_shared_reference_vectors_keep_canonical_bytes_and_content_identities
     }
 }
 
-/// Trace: FR-001-AC-7
+#[trace("FR-001-AC-7")]
 #[test]
 fn operation_catalog_canonical_bytes_round_trip_and_identity_hashes_them() {
     use filament_verification_contracts::operation_catalog::CHECKED_OPERATION_CATALOG_V1;
@@ -832,7 +833,7 @@ fn operation_catalog_canonical_bytes_round_trip_and_identity_hashes_them() {
     );
 }
 
-/// Trace: FR-001-AC-2
+#[trace("FR-001-AC-2")]
 #[cfg(feature = "test-arbitrary-precision")]
 #[test]
 fn arbitrary_precision_value_integer_text_beyond_u64_refuses() {
