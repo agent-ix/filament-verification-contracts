@@ -5,10 +5,10 @@
 
 use std::collections::BTreeMap;
 
-use ix_trace_rs::trace;
 use filament_verification_contracts::{
     VerificationErrorCode, jcs_canonicalize, jcs_equal, jcs_sha256,
 };
+use ix_trace_rs::trace;
 use quire_canonical::{Encode, FixedShape, nest};
 use serde::Serialize;
 use serde::ser::{SerializeMap, Serializer};
