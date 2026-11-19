@@ -236,6 +236,46 @@ mod tests {
         }
     }
 
+    /// The slot-domain operation is a set-valued derived read reserved for quantifier domains.
+    #[trace("FR-772-AC-2")]
+    #[test]
+    fn slot_domain_operation_declares_its_operand_and_consumer_constraints() {
+        use serde_json::json;
+
+        let catalog = catalog();
+        let operation = catalog["operations"]
+            .as_array()
+            .expect("operations array")
+            .iter()
+            .find(|entry| entry["identity"] == "filament.op.option.slots")
+            .expect("the slot-domain operation is declared");
+
+        assert_eq!(operation["operator"], "slots");
+        assert_eq!(operation["operands"], json!(["object"]));
+        assert_eq!(operation["rest"], "any_value");
+        assert_eq!(operation["result"], "set");
+        assert_eq!(operation["laws"], json!([]));
+        assert!(operation["mode"].is_null());
+        assert!(operation["member"].is_null());
+        assert_eq!(
+            operation["constraints"],
+            json!([
+                {"kind":"place_slot_terms","operands":[0]},
+                {"kind":"quantifier_domain_only"}
+            ])
+        );
+        assert!(operation["leaves"].is_null());
+        for constraint in ["place_slot_terms", "quantifier_domain_only"] {
+            assert!(
+                catalog["constraint_kinds"]
+                    .as_array()
+                    .expect("constraint kinds array")
+                    .iter()
+                    .any(|kind| kind == constraint)
+            );
+        }
+    }
+
     /// The refinement history, `only` and `seq` operations are admitted
     /// with their declared operands, member kinds, results and constraints.
     #[trace("FR-322-AC-17")]
