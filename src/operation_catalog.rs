@@ -237,7 +237,7 @@ mod tests {
     }
 
     /// The slot-domain operation is a set-valued derived read reserved for quantifier domains.
-    #[trace("FR-772-AC-2")]
+    #[trace("FR-322-AC-17")]
     #[test]
     fn slot_domain_operation_declares_its_operand_and_consumer_constraints() {
         use serde_json::json;
