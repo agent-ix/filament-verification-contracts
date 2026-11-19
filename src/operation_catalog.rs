@@ -266,11 +266,13 @@ mod tests {
         );
         assert!(operation["leaves"].is_null());
         for constraint in ["place_slot_terms", "quantifier_domain_only"] {
-            assert!(catalog["constraint_kinds"]
-                .as_array()
-                .expect("constraint kinds array")
-                .iter()
-                .any(|kind| kind == constraint));
+            assert!(
+                catalog["constraint_kinds"]
+                    .as_array()
+                    .expect("constraint kinds array")
+                    .iter()
+                    .any(|kind| kind == constraint)
+            );
         }
     }
 
