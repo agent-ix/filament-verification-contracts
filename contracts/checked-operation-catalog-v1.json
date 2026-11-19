@@ -1,16 +1,17 @@
 {
   "version": "filament.checked-operation-catalog/v1",
-  "families": ["boolean", "integer", "rational", "decimal", "float32", "float64", "text", "string", "uuid", "timestamp", "bytes", "json_object", "enum", "ordered_enum", "quantity", "option", "record", "tuple", "union", "sequence", "set", "bag", "ordered_set", "reference", "object", "function", "population", "aggregate", "binder", "clause", "temporal"],
+  "families": ["boolean", "integer", "rational", "decimal", "float32", "float64", "text", "string", "uuid", "timestamp", "clock_reference", "bytes", "json_object", "enum", "ordered_enum", "quantity", "option", "record", "tuple", "union", "sequence", "set", "bag", "ordered_set", "reference", "object", "function", "population", "aggregate", "binder", "clause", "temporal"],
   "groups": {
-    "any_value": ["boolean", "integer", "rational", "decimal", "float32", "float64", "text", "string", "uuid", "timestamp", "bytes", "json_object", "enum", "ordered_enum", "quantity", "option", "record", "tuple", "union", "sequence", "set", "bag", "ordered_set", "reference"],
-    "any_term": ["boolean", "integer", "rational", "decimal", "float32", "float64", "text", "string", "uuid", "timestamp", "bytes", "json_object", "enum", "ordered_enum", "quantity", "option", "record", "tuple", "union", "sequence", "set", "bag", "ordered_set", "reference", "function", "population", "aggregate", "binder", "clause", "temporal"],
+    "any_value": ["boolean", "integer", "rational", "decimal", "float32", "float64", "text", "string", "uuid", "timestamp", "clock_reference", "bytes", "json_object", "enum", "ordered_enum", "quantity", "option", "record", "tuple", "union", "sequence", "set", "bag", "ordered_set", "reference"],
+    "any_term": ["boolean", "integer", "rational", "decimal", "float32", "float64", "text", "string", "uuid", "timestamp", "clock_reference", "bytes", "json_object", "enum", "ordered_enum", "quantity", "option", "record", "tuple", "union", "sequence", "set", "bag", "ordered_set", "reference", "function", "population", "aggregate", "binder", "clause", "temporal"],
     "exact_numeric": ["integer", "rational", "decimal"],
     "rational_promotable": ["integer", "rational"],
     "ieee_float": ["float32", "float64"],
     "collection_kind": ["sequence", "set", "bag", "ordered_set"],
     "structural_kind": ["option", "record", "tuple", "union", "sequence", "set", "bag", "ordered_set"],
     "enum_kind": ["enum", "ordered_enum"],
-    "field_owner": ["record", "object"]
+    "field_owner": ["record", "object"],
+    "place_owner": ["reference"]
   },
   "law_roles": {
     "integer_division": [
@@ -36,7 +37,7 @@
     "text_profile": ["text"]
   },
   "member_kinds": ["field", "position", "element", "relationship_end", "operation", "type_argument", "profile_operator", "state_clause", "temporal_interval", "fairness", "history"],
-  "constraint_kinds": ["same_family", "same_type", "conforming_reference", "reference_edge", "same_dimension", "inner_type", "member_of", "member_family", "bound_family", "bound_is_member", "carried_member", "exact_conversion", "range_narrowing", "rational_narrowing", "scale_reduction", "promotes_exact", "uniform_rest", "union_arms", "place_slot_terms", "quantifier_domain_only"],
+  "constraint_kinds": ["same_family", "same_type", "conforming_reference", "reference_edge", "same_dimension", "inner_type", "member_of", "member_family", "bound_family", "bound_is_member", "carried_member", "exact_conversion", "range_narrowing", "rational_narrowing", "scale_reduction", "promotes_exact", "uniform_rest", "union_arms", "place_slot_terms", "place_identity_terms", "place_has_id", "quantifier_domain_only"],
   "result_forms": ["<family>", "operand:<n>", "kind:<n>", "inner:<n>", "return:<n>", "member", "absence", "arm_body"],
   "leaf_sources": ["operand:0", "inner:0", "result_inner"],
   "operations": [
@@ -168,6 +169,9 @@
     {"identity": "filament.op.reference.eq", "operator": "binary", "operands": ["reference", "reference"], "rest": null, "result": "boolean", "laws": [], "mode": null, "member": null, "constraints": [{"kind": "conforming_reference", "operands": [0, 1], "family": null}], "leaves": null},
     {"identity": "filament.op.reference.ne", "operator": "binary", "operands": ["reference", "reference"], "rest": null, "result": "boolean", "laws": [], "mode": null, "member": null, "constraints": [{"kind": "conforming_reference", "operands": [0, 1], "family": null}], "leaves": null},
     {"identity": "filament.op.reference.upcast", "operator": "convert", "operands": ["reference"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "member_family", "operands": [], "family": "reference"}], "leaves": null},
+    {"identity": "filament.op.clock_reference.ref", "operator": "place_ref", "operands": ["place_owner"], "rest": "any_value", "result": "clock_reference", "laws": [], "mode": null, "member": null, "constraints": [{"kind": "place_identity_terms", "operands": [0]}, {"kind": "place_has_id"}], "leaves": null},
+    {"identity": "filament.op.clock_reference.eq", "operator": "binary", "operands": ["clock_reference", "clock_reference"], "rest": null, "result": "boolean", "laws": [], "mode": null, "member": null, "constraints": [], "leaves": null},
+    {"identity": "filament.op.clock_reference.ne", "operator": "binary", "operands": ["clock_reference", "clock_reference"], "rest": null, "result": "boolean", "laws": [], "mode": null, "member": null, "constraints": [], "leaves": null},
 
     {"identity": "filament.op.numeric.convert", "operator": "convert", "operands": ["exact_numeric"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "type_argument", "constraints": [{"kind": "member_family", "operands": [], "family": "exact_numeric"}, {"kind": "exact_conversion", "operands": [0], "family": null}], "leaves": null},
     {"identity": "filament.op.numeric.convert_rounding", "operator": "convert", "operands": ["exact_numeric"], "rest": null, "result": "member", "laws": [], "mode": "rounding", "member": "type_argument", "constraints": [{"kind": "member_family", "operands": [], "family": "decimal"}, {"kind": "scale_reduction", "operands": [0], "family": null}], "leaves": null},
@@ -179,7 +183,7 @@
     {"identity": "filament.op.collection.index", "operator": "query", "operands": ["collection_kind", "integer"], "rest": null, "result": "member", "laws": [], "mode": null, "member": "element", "constraints": [{"kind": "member_of", "operands": [0], "family": null}], "leaves": null},
 
     {"identity": "filament.op.option.present", "operator": "present", "operands": ["option"], "rest": null, "result": "boolean", "laws": [], "mode": null, "member": null, "constraints": [], "leaves": null},
-    {"identity": "filament.op.option.slots", "operator": "slots", "operands": ["object"], "rest": "any_value", "result": "set", "laws": [], "mode": null, "member": null, "constraints": [{"kind": "place_slot_terms", "operands": [0]}, {"kind": "quantifier_domain_only"}], "leaves": null},
+    {"identity": "filament.op.option.slots", "operator": "slots", "operands": ["place_owner"], "rest": "any_value", "result": "set", "laws": [], "mode": null, "member": null, "constraints": [{"kind": "place_slot_terms", "operands": [0]}, {"kind": "quantifier_domain_only"}], "leaves": null},
     {"identity": "filament.op.option.value", "operator": "value", "operands": ["option"], "rest": null, "result": "inner:0", "laws": [], "mode": null, "member": null, "constraints": [], "leaves": null},
     {"identity": "filament.op.state.pre", "operator": "pre", "operands": ["any_value"], "rest": null, "result": "operand:0", "laws": [], "mode": null, "member": null, "constraints": [], "leaves": null},
     {"identity": "filament.op.control.if", "operator": "conditional", "operands": ["boolean", "any_value", "any_value"], "rest": null, "result": "operand:1", "laws": [], "mode": null, "member": null, "constraints": [{"kind": "same_family", "operands": [1, 2], "family": null}], "leaves": null},

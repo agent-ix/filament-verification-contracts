@@ -251,7 +251,8 @@ mod tests {
             .expect("the slot-domain operation is declared");
 
         assert_eq!(operation["operator"], "slots");
-        assert_eq!(operation["operands"], json!(["object"]));
+        assert_eq!(operation["operands"], json!(["place_owner"]));
+        assert_eq!(catalog["groups"]["place_owner"], json!(["reference"]));
         assert_eq!(operation["rest"], "any_value");
         assert_eq!(operation["result"], "set");
         assert_eq!(operation["laws"], json!([]));
@@ -272,6 +273,82 @@ mod tests {
                     .expect("constraint kinds array")
                     .iter()
                     .any(|kind| kind == constraint)
+            );
+        }
+    }
+
+    /// Clock-place references are a native scalar family with one place-reference
+    /// constructor and value comparisons.
+    #[trace("FR-829-AC-5")]
+    #[test]
+    fn clock_reference_operations_and_owner_group_are_catalogued() {
+        use serde_json::json;
+
+        let catalog = catalog();
+        let families = catalog["families"].as_array().expect("families array");
+        assert!(families.iter().any(|family| family == "clock_reference"));
+        assert!(
+            catalog["groups"]["any_value"]
+                .as_array()
+                .expect("any_value group")
+                .iter()
+                .any(|family| family == "clock_reference")
+        );
+        assert!(
+            catalog["groups"]["any_term"]
+                .as_array()
+                .expect("any_term group")
+                .iter()
+                .any(|family| family == "clock_reference")
+        );
+        assert_eq!(catalog["groups"]["place_owner"], json!(["reference"]));
+
+        let operation = |identity: &str| -> Value {
+            catalog["operations"]
+                .as_array()
+                .expect("operations array")
+                .iter()
+                .find(|entry| entry["identity"] == identity)
+                .unwrap_or_else(|| panic!("operation `{identity}` is declared"))
+                .clone()
+        };
+
+        assert_eq!(
+            operation("filament.op.clock_reference.ref"),
+            json!({
+                "identity": "filament.op.clock_reference.ref",
+                "operator": "place_ref",
+                "operands": ["place_owner"],
+                "rest": "any_value",
+                "result": "clock_reference",
+                "laws": [],
+                "mode": null,
+                "member": null,
+                "constraints": [
+                    {"kind": "place_identity_terms", "operands": [0]},
+                    {"kind": "place_has_id"}
+                ],
+                "leaves": null
+            })
+        );
+        for identity in [
+            "filament.op.clock_reference.eq",
+            "filament.op.clock_reference.ne",
+        ] {
+            assert_eq!(
+                operation(identity),
+                json!({
+                    "identity": identity,
+                    "operator": "binary",
+                    "operands": ["clock_reference", "clock_reference"],
+                    "rest": null,
+                    "result": "boolean",
+                    "laws": [],
+                    "mode": null,
+                    "member": null,
+                    "constraints": [],
+                    "leaves": null
+                })
             );
         }
     }
