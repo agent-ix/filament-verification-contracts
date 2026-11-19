@@ -24,3 +24,17 @@ The catalog declares 195 operations, including the three new clock-reference ide
 | ID | Severity | Summary | Refs |
 | --- | --- | --- | --- |
 | FND-001 | medium | The slot-domain catalog-shape test is tagged to FR-772-AC-2, whose oracle requires actual reader refusals; this test only checks the catalog JSON and cannot discharge those cases. | src/operation_catalog.rs:239-255 |
+
+## Dispositions
+
+| FND | outcome | reason |
+| --- | --- | --- |
+| FND-001 | fixed | The tag now points to FR-322-AC-17, which covers the catalog-shape assertion. |
+
+```yaml
+dispositions:
+  - fnd: FND-001
+    outcome: fixed
+    after_excerpt: "    #[trace(\"FR-322-AC-17\")]"
+    reason: The fix changes only the trace to the catalog criterion; the test remains catalog-shape only.
+```
