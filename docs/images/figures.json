@@ -1,0 +1,66 @@
+{
+  "data": {
+    "max_mib": {"from":"regex","path":"src/lib.rs","pattern":"MAX_JSON_BYTES: usize = (\\d+) \\* 1024 \\* 1024"},
+    "max_depth": {"from":"regex","path":"src/lib.rs","pattern":"MAX_JSON_DEPTH: usize = (\\d+);"},
+    "max_items_k": {"from":"regex","path":"src/lib.rs","pattern":"MAX_ARRAY_ITEMS: usize = (\\d+)_000;"},
+    "schemas_1": {"from":"count","glob":"contracts/shared-reference-*.schema.json"},
+    "schemas_2": {"from":"count","glob":"contracts/shared-reference-2-draft/schema.json"},
+    "schemas": {"from":"sum","of":["schemas_1","schemas_2"]},
+    "fixtures": {"from":"count","glob":"fixtures/shared-reference-2-draft/*.json"},
+    "operations": {"from":"json","path":"contracts/checked-operation-catalog-v1.json","pointer":"/operations","length":true}
+  },
+  "figures": [
+    {
+      "id": "hero",
+      "width": 980, "height": 406,
+      "label": "filament-verification-contracts owns five shared vocabularies: the five public verification contracts with their error codes, bounded JSON intake, RFC 8785 identity, the shared-reference packet and the checked-operation catalog. The filament-verification re-exports all of it, filament-protocol uses the contracts directly, filament-contract-ir reads the catalog, and the packet is a temporary copy from filament-specification.",
+      "items": [
+        {"k":"rect","at":[310,0,340,366],"role":"faint","fill":false,"rx":8},
+        {"k":"text","at":[322,20],"text":"QUIRE-VERIFICATION-CONTRACTS","role":"muted","size":12},
+        {"k":"box","at":[330,34,300,56],"role":"model","title":"E02 contracts","subs":["5 wire types · error codes"]},
+        {"k":"box","at":[330,100,300,56],"role":"model","title":"bounded JSON","subs":["{max_mib} MiB · depth {max_depth} · {max_items_k}k items"]},
+        {"k":"box","at":[330,166,300,56],"role":"model","title":"RFC 8785 identity","subs":["canonical bytes · sha256-jcs"]},
+        {"k":"box","at":[330,232,300,56],"role":"model","title":"shared-reference packet","subs":["{schemas} schemas · {fixtures} fixtures"]},
+        {"k":"box","at":[330,298,300,56],"role":"model","title":"operation catalog","subs":["{operations} operations · one copy"]},
+        {"k":"box","at":[0,232,220,56],"role":"ink","title":"filament-specification","subs":["source of the copy"]},
+        {"k":"line","points":[[220,260],[327,260]]},
+        {"k":"note","at":[8,222],"text":"data-only copy","role":"muted"},
+        {"k":"line","points":[[630,62],[690,62]],"role":"model"},
+        {"k":"box","at":[693,34,287,56],"role":"ink","title":"filament-verification","subs":["re-exports all of it"]},
+        {"k":"line","points":[[630,194],[690,194]],"role":"model"},
+        {"k":"box","at":[693,166,287,56],"role":"ink","title":"filament-protocol","subs":["uses the contracts"]},
+        {"k":"line","points":[[630,326],[690,326]],"role":"model"},
+        {"k":"box","at":[693,298,287,56],"role":"ink","title":"filament-contract-ir","subs":["reads the catalog"]},
+        {"k":"legend","at":[0,400],"entries":[["model","vocabulary kept here","box"],["ink","other repository","box"]]}
+      ]
+    },
+    {
+      "id": "intake",
+      "width": 980, "height": 300,
+      "label": "JSON bytes pass parse_bounded_json, which refuses documents over {max_mib} MiB, nesting over {max_depth} levels or arrays over {max_items_k},000 items, then validate_contract checks the schema and returns one of five typed contracts; any failure is a stable error code. Separately, jcs_canonicalize turns a value into RFC 8785 bytes and jcs_sha256 into a sha256-jcs digest.",
+      "items": [
+        {"k":"text","at":[0,14],"text":"INTAKE","role":"muted","size":12},
+        {"k":"box","at":[0,30,150,56],"role":"ink","title":"JSON bytes","subs":["from a caller"]},
+        {"k":"box","at":[200,30,210,56],"role":"logic","title":"parse_bounded_json","subs":["size · depth · array"]},
+        {"k":"box","at":[460,30,190,56],"role":"logic","title":"validate_contract","subs":["draft 2020-12 schema"]},
+        {"k":"box","at":[700,30,280,56],"role":"model","title":"PublicContract","subs":["one of five typed contracts"]},
+        {"k":"line","points":[[150,58],[197,58]]},
+        {"k":"line","points":[[410,58],[457,58]],"role":"logic"},
+        {"k":"line","points":[[650,58],[697,58]],"role":"logic"},
+        {"k":"box","at":[200,130,450,50],"role":"evidence","title":"VerificationError","subs":["a stable code, never a panic"]},
+        {"k":"line","points":[[305,86],[305,127]],"role":"evidence"},
+        {"k":"line","points":[[555,86],[555,127]],"role":"evidence"},
+        {"k":"text","at":[0,214],"text":"IDENTITY","role":"muted","size":12},
+        {"k":"box","at":[0,230,150,56],"role":"ink","title":"any JSON value","subs":["key order varies"]},
+        {"k":"box","at":[200,230,210,56],"role":"logic","title":"jcs_canonicalize","subs":["RFC 8785 bytes"]},
+        {"k":"box","at":[460,230,190,56],"role":"logic","title":"jcs_sha256","subs":["hash of the bytes"]},
+        {"k":"box","at":[700,230,280,56],"role":"model","title":"sha256-jcs:<hex>","subs":["same value, same digest"]},
+        {"k":"line","points":[[150,258],[197,258]]},
+        {"k":"line","points":[[410,258],[457,258]],"role":"logic"},
+        {"k":"line","points":[[650,258],[697,258]],"role":"logic"}
+      ]
+    },
+    {"id":"ecosystem","construct":{"name":"ecosystem","here":"filament-verification-contracts"}}
+  ]
+}
+
