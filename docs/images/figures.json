@@ -1,4 +1,14 @@
 {
+  "data": {
+    "max_mib": {"from":"regex","path":"src/lib.rs","pattern":"MAX_JSON_BYTES: usize = (\\d+) \\* 1024 \\* 1024"},
+    "max_depth": {"from":"regex","path":"src/lib.rs","pattern":"MAX_JSON_DEPTH: usize = (\\d+);"},
+    "max_items_k": {"from":"regex","path":"src/lib.rs","pattern":"MAX_ARRAY_ITEMS: usize = (\\d+)_000;"},
+    "schemas_1": {"from":"count","glob":"contracts/shared-reference-*.schema.json"},
+    "schemas_2": {"from":"count","glob":"contracts/shared-reference-2-draft/schema.json"},
+    "schemas": {"from":"sum","of":["schemas_1","schemas_2"]},
+    "fixtures": {"from":"count","glob":"fixtures/shared-reference-2-draft/*.json"},
+    "operations": {"from":"json","path":"contracts/checked-operation-catalog-v1.json","pointer":"/operations","length":true}
+  },
   "figures": [
     {
       "id": "hero",
@@ -8,10 +18,10 @@
         {"k":"rect","at":[310,0,340,366],"role":"faint","fill":false,"rx":8},
         {"k":"text","at":[322,20],"text":"QUIRE-VERIFICATION-CONTRACTS","role":"muted","size":12},
         {"k":"box","at":[330,34,300,56],"role":"model","title":"E02 contracts","subs":["5 wire types · error codes"]},
-        {"k":"box","at":[330,100,300,56],"role":"model","title":"bounded JSON","subs":["16 MiB · depth 128 · 100k items"]},
+        {"k":"box","at":[330,100,300,56],"role":"model","title":"bounded JSON","subs":["{max_mib} MiB · depth {max_depth} · {max_items_k}k items"]},
         {"k":"box","at":[330,166,300,56],"role":"model","title":"RFC 8785 identity","subs":["canonical bytes · sha256-jcs"]},
-        {"k":"box","at":[330,232,300,56],"role":"model","title":"shared-reference packet","subs":["2 schemas · 14 fixtures"]},
-        {"k":"box","at":[330,298,300,56],"role":"model","title":"operation catalog","subs":["135 operations · one copy"]},
+        {"k":"box","at":[330,232,300,56],"role":"model","title":"shared-reference packet","subs":["{schemas} schemas · {fixtures} fixtures"]},
+        {"k":"box","at":[330,298,300,56],"role":"model","title":"operation catalog","subs":["{operations} operations · one copy"]},
         {"k":"box","at":[0,232,220,56],"role":"ink","title":"filament-specification","subs":["source of the copy"]},
         {"k":"line","points":[[220,260],[327,260]]},
         {"k":"note","at":[8,222],"text":"data-only copy","role":"muted"},
@@ -27,7 +37,7 @@
     {
       "id": "intake",
       "width": 980, "height": 300,
-      "label": "JSON bytes pass parse_bounded_json, which refuses documents over 16 MiB, nesting over 128 levels or arrays over 100,000 items, then validate_contract checks the schema and returns one of five typed contracts; any failure is a stable error code. Separately, jcs_canonicalize turns a value into RFC 8785 bytes and jcs_sha256 into a sha256-jcs digest.",
+      "label": "JSON bytes pass parse_bounded_json, which refuses documents over {max_mib} MiB, nesting over {max_depth} levels or arrays over {max_items_k},000 items, then validate_contract checks the schema and returns one of five typed contracts; any failure is a stable error code. Separately, jcs_canonicalize turns a value into RFC 8785 bytes and jcs_sha256 into a sha256-jcs digest.",
       "items": [
         {"k":"text","at":[0,14],"text":"INTAKE","role":"muted","size":12},
         {"k":"box","at":[0,30,150,56],"role":"ink","title":"JSON bytes","subs":["from a caller"]},
