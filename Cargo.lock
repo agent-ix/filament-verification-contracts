@@ -509,8 +509,8 @@ dependencies = [
 
 [[package]]
 name = "quire-canonical"
-version = "0.3.1"
-source = "git+https://github.com/agent-ix/quire-canonical?tag=v0.3.1#2204c5c3fc0ca13dd655400d94e923edd2e8416c"
+version = "0.3.2"
+source = "git+https://github.com/agent-ix/quire-canonical?tag=v0.3.2#f00840e4add08100e3491e8bc5bcb7d60a9e9ca2"
 dependencies = [
  "quire-canonical-derive",
  "ryu-js",
@@ -523,7 +523,7 @@ dependencies = [
 [[package]]
 name = "quire-canonical-derive"
 version = "0.3.0"
-source = "git+https://github.com/agent-ix/quire-canonical?tag=v0.3.1#2204c5c3fc0ca13dd655400d94e923edd2e8416c"
+source = "git+https://github.com/agent-ix/quire-canonical?tag=v0.3.2#f00840e4add08100e3491e8bc5bcb7d60a9e9ca2"
 dependencies = [
  "proc-macro2",
  "quote",
