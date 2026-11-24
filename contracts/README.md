@@ -39,8 +39,8 @@ packet is published here under AGPL-3.0-or-later; the owner ruling of
 2026-09-20 authorizes publication of the draft-2 schema fragment.
 
 `checked-operation-catalog-v1.json` is the closed
-`filament.checked-operation-catalog/v1` operation vocabulary — 195 operations with
-their operand families, result forms, law roles, modes, member kinds and
+`filament.checked-operation-catalog/v1` operation vocabulary, with each operation's
+operand families, result forms, law roles, modes, member kinds and
 cross-operand constraints, plus the ten closed vocabularies they are drawn from.
 This crate is its **home**, not a snapshot of one kept elsewhere: these bytes have
 exactly one copy in the ecosystem, and consumers — `filament-contract-ir`'s
