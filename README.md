@@ -159,7 +159,7 @@ and filament-specification depend on it too.
 
 ## Building and testing
 
-The toolchain is pinned in `rust-toolchain.toml` (Rust 1.98.1, edition 2024).
+The toolchain is pinned in `rust-toolchain.toml` (Rust 1.100.0, edition 2024).
 
 ```bash
 make test        # cargo test

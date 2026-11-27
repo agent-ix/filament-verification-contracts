@@ -32,7 +32,7 @@ Backported from `agent-ix/ecaz`:
 - `deny.toml` allow-lists licenses and denies unknown registries/git sources
 - Workspace Clippy `undocumented_unsafe_blocks` checks safety comments. The crate also forbids unsafe code at compile time.
 - `rustfmt.toml` uses 100-char width and `StdExternalCrate` import grouping. CI fails on drift.
-- `rust-toolchain.toml` pins to stable + rustfmt + clippy.
+- `rust-toolchain.toml` pins to Rust 1.100.0 + rustfmt + clippy.
 
 ## Layout
 
